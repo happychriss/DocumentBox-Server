@@ -1,0 +1,62 @@
+.spaceholder {
+  display:none}
+
+.document_page_index {
+  width: 50%;
+  float: left;
+  min-height: 400px;
+  margin: 10px;
+  list-style-type: none;
+  padding: 0;
+}
+
+.document_page_index .preview {
+  cursor: move;
+
+}
+
+.document_sort_frame {
+  position: fixed;
+  right:0px;
+  width: 48%;
+}
+
+.document_sort {
+  border-style: dashed;
+  border-radius: 5px;
+  border-color: gray;
+  height: 530px;
+  padding: 10px;
+  margin: 10px;
+  list-style-type: none;
+  }
+
+.page_sort {
+  float: left;
+  padding: 3px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 2px 2px ;
+  width: 350px;
+  height: 520px;
+  margin: 0px;
+  cursor: move;
+}
+
+
+
+
+.page_sort:hover {
+
+}
+
+.empty_image {
+height: 90%;
+}
+
+.status_frame {
+  background: #a9a9a9;
+  border-radius: 10px;
+  min-height: 50px;
+  margin: 20px;
+  padding: 10px;
+}

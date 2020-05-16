@@ -1,0 +1,18 @@
+<% unless pages_sorted.nil? then %>
+    <% left_margin=-100; z_index=9%>
+    <% pages_sorted.each do |page| %>
+        <li class='page_small' style="margin-left:<%=left_margin%>px; z-index: <%=z_index;%>    ;" id=<%= page.id %>>
+            <% z_index=z_index-1 %>
+          <%= image_tag(page.short_path(:s_jpg), :id => page.id, :bigjpg => page.short_path(:jpg), :class => 'clickzoom') %>
+          <div class="clear"></div>
+
+          <div class="preview_footer">
+            <%= "#{page.id} - #{page.created_at.strftime("%d.%m.%y")} - #{page.source}" %>
+            <div class="clear"></div>
+            <%= (link_to "Delete", page, :remote => true, :confirm => 'Are you sure?', :method => :delete) if p==1 %>
+          </div>
+        </li>
+
+    <% end %>
+    <div style="clear:both;"></div>
+<% end %>

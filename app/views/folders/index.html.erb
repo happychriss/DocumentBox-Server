@@ -1,0 +1,30 @@
+<h1>Listing folders</h1>
+
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Short Name</th>
+    <th>Cover needed</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @folders.each do |folder| %>
+  <tr>
+    <td><%= folder.id %></td>
+    <td><%= folder.name %></td>
+    <td><%= folder.short_name %></td>
+    <td><%= folder.cover_ind %></td>
+
+    <td><%= link_to 'Show', folder %></td>
+    <td><%= link_to 'Edit', edit_folder_path(folder) %></td>
+    <td><%= link_to 'Destroy', folder, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Folder', new_folder_path %>

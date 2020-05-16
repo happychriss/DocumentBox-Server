@@ -1,0 +1,32 @@
+
+<h1>Print a new cover to store the documents</h1>
+
+
+<%= form_for @cover, :html => {:class =>'input_area'} do |f| %>
+    <% if @cover.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@cover.errors.count, "error") %> prohibited this cover from being saved:</h2>
+
+          <ul>
+            <% @cover.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    Select the folder for the cover
+
+    <%= f.select("folder_id", Folder.where(:cover_ind => true).collect { |p| [p.name, p.id] }, {:include_blank => true}, :id=>'new_cover_folder') %>
+
+    </br></br></br>
+
+    <div class="actions">
+      <%= f.submit "Create & Print Cover", :id =>'cover_submit',:disabled=>"disabled    "  %>
+    </div>
+<% end %>
+
+
+<div id='page_list'>
+  <h1> No Pages found </h1>
+</div>

@@ -1,0 +1,48 @@
+<!-- Standard Template to show pages - with yield -->
+<!-- http://railsonedge.blogspot.de/2008/04/dry-up-your-views-with-layouts-for-your.html-->
+
+<% if page.status == Page::UPLOADED_PROCESSING then %>
+    <%= image_tag('upload_no_spinner.gif', :id => page.id, :bigjpg => page.short_path(:jpg),:class => 'no_clickzoom', :preview_path=>page.short_path(:s_jpg)) %>
+<% elsif not page.preview? %>
+    <%= image_tag('no_preview.jpg', :id => page.id, :bigjpg => page.short_path(:jpg),:class => 'no_clickzoom', :preview_path=>page.short_path(:s_jpg)) %>
+<% elsif page.status == Page::UPLOADED_PROCESSED %>
+    <%= image_tag(page.short_path(:s_jpg), :id => page.id, :bigjpg => page.short_path(:jpg), :class => 'clickzoom') %>
+<% else%>
+    <%= image_tag(page.short_path(:s_jpg), :id => page.id, :bigjpg => page.short_path(:jpg),:class => 'no_clickzoom', :preview_path=>page.short_path(:s_jpg)) %>
+<%end%>
+
+
+
+<div class="clear"></div>
+
+<div class="preview_footer">
+
+  <% if page.has_document? %>
+      <%= "#{page.position+1}/#{page.document_pages_count}" %> |
+  <% end %>
+
+  <% unless page.folder.nil? %>
+      <%= "#{page.folder.short_name}" %>
+  <% end %>
+
+
+  <% if page.source==Page::PAGE_SOURCE_MIGRATED %>
+      <%= "| Migration FID:#{page.fid}" %>
+  <% elsif not page.cover.nil?%>
+      <%= "| Cover:#{page.cover.counter} * #{page.fid}" %>
+  <% elsif not page.folder.nil? and page.folder.cover_ind%>
+       *No cover*
+   <%end%>
+
+
+  <%= "|#{if page.document.nil? then page.created_at.strftime("%d.%m.%y") else page.document.created_at.strftime("%d.%m.%y")end}| #{page.id}" %>
+  <%= "| #{page.original_filename[0..13]}.." if page.source==Page::PAGE_SOURCE_UPLOADED%>
+
+
+  <div style="padding-right: 5px;">
+        <%= link_to "RTF", rtf_path(page.id) %>
+    <%= yield %>  <!-- !!!!HERE IS THE YIELD -->
+  </div>
+</div>
+
+

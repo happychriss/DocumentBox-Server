@@ -1,0 +1,12 @@
+<h1>Pages found without cover: <%= @page_count %></h1>
+
+</br>
+<% unless pages.nil?%>
+<% pages.each do |page|%>
+    <%= image_tag(page.short_path(:s_jpg), :id => page.id, :bigjpg => page.short_path(:jpg), :class => 'clickzoom') %>
+<%end%>
+
+<% if @page_count>20 %>
+<h1>Not all pages are displayed here....</h1>
+<%end%>
+<%end%>

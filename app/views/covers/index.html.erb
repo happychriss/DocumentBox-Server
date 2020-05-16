@@ -1,0 +1,35 @@
+<h1>Listing covers</h1>
+
+<table>
+  <tr>
+    <th>System ID</th>
+    <th>ID</th>
+    <th>Folder Name </th>
+    <th>Created</th>
+    <th>Number of Pages</th>
+
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @covers.each do |cover| %>
+  <tr>
+
+    <td><%= cover.id %></td>
+    <td><%= cover.counter %></td>
+    <td><%= cover.folder.short_name %></td>
+
+    <td><%= cover.created_at.strftime('%d.%m.%y')    %></td>
+    <td><%= cover.pages.count %></td>
+
+    <td><%= link_to 'Show', cover %></td>
+    <td><%= link_to 'Edit', edit_cover_path(cover) %></td>
+    <td><%= link_to 'Destroy', cover, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Cover', new_cover_path %>

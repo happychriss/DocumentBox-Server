@@ -1,0 +1,18 @@
+<div id="show_document_pages" xmlns="http://www.w3.org/1999/html">
+  <%  @pages.each do |page| %>
+      <div class="show_single_page">
+      <%= image_tag(page.short_path(:s_jpg), :id => page.id, :bigjpg => page.short_path(:jpg), :class => 'clickzoom') %>
+
+      <div class="clear"></div>
+
+      <div class="preview_footer">
+
+       <%= "Page #{page.position+1}" %>  <%= "#{page.id} - #{page.created_at.strftime("%d.%m.%y")} - #{page.source}" %> |
+
+      </div>
+      </div>
+  <%end%>
+  <div class="clear"></div>
+  <a id='close_pages'>Close</a>
+</div>
+

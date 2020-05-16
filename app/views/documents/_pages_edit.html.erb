@@ -1,0 +1,10 @@
+<ul class="doc_sort_list">
+  <% document.pages.each do |page| %>
+      <li id=<%= 'page_'+page.id.to_s %>>
+        <div class='preview'>
+          <%= render :partial => "links_page_edit", :layout => '/show_page', :locals => {:page => page} %>
+        </div>
+      </li>
+  <% end %>
+</ul>
+

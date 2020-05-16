@@ -1,0 +1,7 @@
+<% publish_to "/scanner_jpp_upload" do %>
+$("#sortable1").append("<%= escape_javascript(render(:partial => 'upload_sorting/page_uploaded', :locals => {:page => @page})) %>");
+Sortable1();
+<% end %>
+
+
+

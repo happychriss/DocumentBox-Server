@@ -1,0 +1,349 @@
+
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require_tree .
+ */
+
+
+/* Generall Setting */
+
+body {
+    background: url(debut_dark.png) repeat fixed;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    line-height: 1;
+}
+
+.input_area {
+    background: white;
+    margin: 10px;
+    border-radius: 15px;
+    box-shadow: 3px #666;
+    padding: 10px;
+    opacity: 0.9;
+
+}
+
+
+
+
+/* Document Preview and document display*/
+
+
+.preview  {
+    float: left;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 15px;
+    box-shadow: 3px 3px 3px 3px;
+    background: #d3d3d3;
+    position: relative;
+    width: 350px;
+    height: 520px;
+}
+
+.preview.no_backup{
+    background: #ff0000;
+}
+
+.clickzoom {
+    cursor: -webkit-zoom-in; cursor: -moz-zoom-in;
+}
+
+.preview_footer {
+    float: left;
+    line-height: 1;
+    margin-top: 2px;
+    height: 20px;
+    width: 100%;
+}
+
+.document {
+    background: gray;
+}
+
+h1 {
+    color: orange;
+    font-size: 17px;
+    font-weight: 100;
+    line-height: 30px;
+    margin: 10px;
+}
+
+a img {
+    border: none;
+    margin: 3px;
+}
+
+@mixin my_link {
+    color: orange;
+    font-weight: bold;
+    cursor: pointer; cursor: hand;
+    text-decoration:underline;
+}
+
+a {
+@include my_link;
+}
+
+.clicklink {
+@include my_link;
+}
+
+
+#container {
+
+}
+
+.pagination {
+    font-size: 20px;
+    text-align: center;
+}
+
+.clear {
+    clear: both;
+    height: 0;
+    overflow: hidden;
+}
+
+/* Form Input */
+
+.form-field * {
+    vertical-align: middle;
+}
+
+.submit input {
+
+}
+
+input {
+    background: #e3e3e3;
+    border: 1px solid black
+}
+
+.standard_label {
+    width: 6em;
+    float: left;
+    text-align: left;
+    margin-right: 0.5em;
+    display: block
+}
+
+#keywords {
+    background:#e3e3e3;
+    padding:5px;
+    margin-top:10px;
+}
+
+
+
+table{
+    border: 0px solid black;
+    border-spacing: 0px;
+}
+
+table thead tr{
+    font-family: Arial, monospace;
+    font-size: 14px;
+}
+
+table thead tr th{
+    border-bottom: 2px solid black;
+    border-top: 1px solid black;
+    margin: 0px;
+    padding: 2px;
+    background-color: #cccccc;
+}
+
+table tr {
+    font-family: arial, monospace;
+    color: black;
+    font-size:12px;
+    background-color: white;
+}
+
+table tr.odd {
+    background-color: #AAAAAA;
+}
+
+table tr td, th{
+    border-bottom: 1px solid black;
+    padding: 3px;
+}
+
+tr td, th{
+    padding-left:5px;
+}
+
+
+
+/* Page specific */
+
+#search_input {
+    font-size: 20px;
+
+}
+
+/* Menu */
+
+#menu {
+    background: url(menu2.jpg) repeat-x;
+    min-height: 30px;
+    line-height: 30px;
+    text-transform: uppercase;
+}
+
+#menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding-left: 20px;
+}
+
+#menu ul li {
+    display: block;
+    float: left;
+}
+
+#menu ul li a {
+    display: block;
+    padding: 0 10px 0 10px;
+    text-decoration: none;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 100;
+}
+
+#menu ul li a:hover {
+    color: #fff;
+    background: url(menuover.png) repeat-x;
+}
+
+
+
+.doc_sort_list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+}
+
+.doc_sort_list li {
+    float: left;
+}
+
+
+
+/* Zoom */
+
+#click_zoom {
+    width: auto;
+    height: auto;
+    border: 5px solid #eee;
+    background: #fff;
+    color: #333;
+    position: fixed;
+    top: 60px;
+    left: 33%;
+    overflow: hidden;
+    -moz-box-shadow: 0 0 10px #777;
+    -webkit-box-shadow: 0 0 10px #777;
+    box-shadow: 0 0 10px #777; /* vertical and horizontal alignment used for preloader text */
+    line-height: 400px;
+    text-align: center;
+    z-index: 999999;
+}
+
+.left_button {
+    position: fixed;
+    top: 160px;
+
+}
+
+
+#easy_zoom {
+    width: 450px;
+    height: 150px;
+    border: 5px solid #eee;
+    background: #fff;
+    color: #333;
+    position: fixed;
+    top: 60px;
+    left: 1000px;
+    overflow: hidden;
+    -moz-box-shadow: 0 0 10px #777;
+    -webkit-box-shadow: 0 0 10px #777;
+    box-shadow: 0 0 10px #777; /* vertical and horizontal alignment used for preloader text */
+    line-height: 400px;
+    text-align: center;
+}
+
+/* Flash Notice */
+
+#flash_notice, #flash_error, #flash_alert {
+    padding: 5px 8px;
+    margin: 10px 0;
+}
+
+#flash_notice {
+    background-color: orange;
+    border: solid 1px black;
+}
+
+#flash_error, #flash_alert {
+    background-color: #FCC;
+    border: solid 1px #C66;
+}
+
+.fieldWithErrors {
+    display: inline;
+}
+
+.error_messages {
+    width: 400px;
+    border: 2px solid #CF0000;
+    padding: 0px;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+    background-color: #f0f0f0;
+    font-size: 12px;
+}
+
+.error_messages h2 {
+    text-align: left;
+    font-weight: bold;
+    padding: 5px 10px;
+    font-size: 12px;
+    margin: 0;
+    background-color: #c00;
+    color: #fff;
+}
+
+.error_messages p {
+    margin: 8px 10px;
+}
+
+.error_messages ul {
+    margin: 0;
+}
+
+
+.ui-datepicker-calendar {font-size: 10px !important}
+.ui-datepicker { padding: 1em; display: none;background: gray }
+.ui-datepicker .ui-datepicker-header { position:relative; padding:.2em 0; }
+.ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next { position:absolute; top: 2px; width: 1.8em }
+.ui-datepicker .ui-datepicker-prev-hover, .ui-datepicker .ui-datepicker-next-hover { top: 1px; }
+.ui-datepicker .ui-datepicker-prev { left:2px; }
+.ui-datepicker .ui-datepicker-next { right:2px; }
+.ui-datepicker .ui-datepicker-prev span, .ui-datepicker .ui-datepicker-next span { display: block; position: absolute; left: 50%; margin-left: -8px; top: 50%; margin-top: -8px;  }
+.ui-datepicker .ui-datepicker-title { margin: 0 2.3em; line-height: 1.8em; text-align: center; }
+.ui-datepicker .ui-datepicker-title select { font-size:1em; margin:1px 0; }
+

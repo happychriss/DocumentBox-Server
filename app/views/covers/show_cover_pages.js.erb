@@ -1,0 +1,6 @@
+$("#page_list").html("<%= escape_javascript(render(:partial => 'cover_page_list', :locals => { :pages => @pages})) %>");
+<% if @pages.nil? or    @pages.count==0 %>
+$("#cover_submit").attr("disabled", "disabled");
+<%else%>
+$("#cover_submit").removeAttr('disabled');
+<%end%>

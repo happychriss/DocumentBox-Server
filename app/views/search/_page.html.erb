@@ -1,0 +1,3 @@
+<div class='<%= search_class(page) %>' id='<%= 'page_'+page.id.to_s %>'>
+  <%= render :partial => 'links_page_search', :layout => '/show_page', :locals => {:page => page} %>
+</div>

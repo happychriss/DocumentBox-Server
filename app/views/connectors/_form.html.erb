@@ -1,0 +1,41 @@
+<%= form_for(@connector) do |f| %>
+  <% if @connector.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@connector.errors.count, "error") %> prohibited this connection from being saved:</h2>
+
+      <ul>
+      <% @connector.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :uid %><br />
+    <%= f.number_field :uid %>
+  </div>
+  <div class="field">
+    <%= f.label :type %><br />
+    <%= f.text_field :type %>
+  </div>
+  <div class="field">
+    <%= f.label :prio %><br />
+    <%= f.number_field :prio %>
+  </div>
+  <div class="field">
+    <%= f.label :status %><br />
+    <%= f.number_field :status %>
+  </div>
+  <div class="field">
+    <%= f.label :host %><br />
+    <%= f.text_field :host %>
+  </div>
+  <div class="field">
+    <%= f.label :port %><br />
+    <%= f.number_field :port %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

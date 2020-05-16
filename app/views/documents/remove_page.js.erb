@@ -1,0 +1,3 @@
+$("#page_<%=@page.id%>").fadeOut('slow', function () {
+    $(".doc_sort_list").html("<%= escape_javascript(render(:partial => 'pages_edit', :locals => { :document => @document})) %>");
+});

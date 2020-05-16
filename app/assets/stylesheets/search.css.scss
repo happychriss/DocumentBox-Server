@@ -1,0 +1,33 @@
+.preview.more_pages{
+  background: gray;
+}
+
+.preview.new_document{
+  background: #90ee90;
+}
+
+#show_document_pages {
+  position:fixed;
+  left: 50%;
+
+
+  border: 15px solid #eee;
+  padding-bottom: 5px;
+  background: gray;
+  color: #333;
+
+  top: 60px;
+
+  overflow: hidden;
+  -moz-box-shadow: 0 0 10px #777;
+  -webkit-box-shadow: 0 0 10px #777;
+  box-shadow: 0 0 20px #777; /* vertical and horizontal alignment used for preloader text */
+  text-align: center;
+  z-index: 999999;
+}
+
+.show_single_page {
+  float: left;
+  padding: 5px;
+
+}

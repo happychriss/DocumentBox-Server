@@ -1,0 +1,51 @@
+<h1 style="color: green" id="notice"><%= flash[:notice] %></h1>
+<h1 style="color: red" id="error"><%= flash[:error] %></h1>
+
+<h1>Document by ID</h1>
+<div class="status_frame">
+  <%= form_tag("/search_doc_id", method: "get") do %>
+      <%= label_tag(:q, "Search:") %>
+      <%= text_field_tag(:q) %>
+      <%= submit_tag("Search") %>
+  <% end %>
+</div>
+<h1>Page by ID</h1>
+<div class="status_frame">
+  <%= form_tag("/search_page_id", method: "get") do %>
+      <%= label_tag(:q, "Search:") %>
+      <%= text_field_tag(:q) %>
+      <%= submit_tag("Search") %>
+  <% end %>
+</div>
+
+<h1>Documents to be deleted (end of livecycle)</h1>
+
+<% if @docs.count==0 %>
+    <h1>No documents to be deleted  !!</h1>
+<% else %>
+
+        <div class="status_frame">
+
+          <%= button_to ">> DELETE NOW <<", delete_documents_path,:method => :get %>
+</br>
+
+      <table>
+        <tr>
+          <th>Document ID</th>
+          <th>Comment</th>
+          <th>Delete on</th>
+          <th>!!Delete this run!!</th>
+          <th></th>
+        </tr>
+        <% for doc in @docs %>
+            <tr>
+              <td><%= doc.id %></td>
+              <td><%= doc.comment %></td>
+              <td><%= doc.delete_at.strftime("%d.%m.%Y") %></td>
+              <td><%= '!!!DELETE!!!' if Date.today > doc.delete_at %></td>
+              <td><%= link_to "Edit", edit_document_path(doc) %></td>
+            </tr>
+        <% end %>
+      </table>
+    </div>
+<% end %>

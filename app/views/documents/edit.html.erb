@@ -1,0 +1,50 @@
+<% title "Adjust page order with drag and drop" %>
+
+<%= form_for(@document, :html => {:class => "input_area"}) do |f| %>
+
+    <p>
+      Comment:  <%= f.text_field :comment %>
+      <span style="margin-left: 20px"> Created:  <%= f.datepicker :created_at,:value => @document.created_at.to_s,:dateFormat => "dd.mm.yy",:changeYear => true,:changeMonth => true, :maxDate => 0 , size:8%></span>
+      <span style="margin-left:10px">Folder: <%= f.select(:folder_id, Folder.all.collect{|f| [f.name, f.id]}) %> </span>
+      <span style="margin-left:10px">
+        <%= if @document.delete_at.nil? then
+              "Document will never expire"
+            else
+              "Document will expire in #{(@document.delete_at.year * 12 + @document.delete_at.month) - (Date.today.year * 12 + Date.today.month)} months"
+            end %>
+        | Expires :
+
+        <%= f.date_select(:delete_at, {start_year: Date.today.year, order: [:year], include_blank: true}, {:id => 'lb_no_delete'}) %>
+
+      </span>
+      <span style="margin-left:10px"> Never delete this file: <%= f.check_box(:no_delete, :id => 'cb_no_delete') %></span>
+    </p>
+    <p>
+      <%= "Document(#{@document.id}) was created in #{@document.created_at.strftime('%B %Y')} for folder '#{@document.folder.short_name}'" %>
+      <%= @document.pages.first.status_text %>
+    </p>
+
+
+    <%= render :partial => '/keywords', :locals => {:current_keywords => @document.keyword_ids} %>
+
+
+    <div style="clear:both;"></div>
+    </br>
+
+
+    <%= (link_to "<<< Back", session[:search_results]+"#page_#{@document.pages.first.id}") unless session[:search_results].nil? %>
+
+    <%= f.submit "Update" %>
+<% end %>
+
+<div style="padding-left: 10px; font-size: large">
+<%= link_to("View full PDF Document", pdf_document_path(@document)) if  @document.complete_pdf?  %>
+</div>
+
+<div style="padding-top: 10px">
+  <%= render :partial => 'pages_edit', :locals => {:document => @document} %>
+</div>
+
+
+
+

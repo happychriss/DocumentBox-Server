@@ -1,0 +1,21 @@
+$("#container").append("<%= escape_javascript(render('show_document_pages', :locals => { :document => @document})) %>");
+$(".link_show_pages").hide();
+$(".close_pages_link").show();
+
+$('#show_document_pages').css('margin-left',<%=-(@pages.count * 360)/2 %>);
+
+// This is the close link in the pop up window
+
+$('#close_pages').click(function() {
+    $('#show_document_pages').remove();
+    $(".link_show_pages").show();
+    $(".close_pages_link").hide()
+});
+
+// This is the close link visible in the search screen
+
+$('.close_pages_link').click(function() {
+    $('#show_document_pages').remove();
+    $(".link_show_pages").show();
+    $(".close_pages_link").hide()
+});

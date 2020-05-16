@@ -1,0 +1,17 @@
+<!-- Standard Template to show pages - with yield -->
+<!-- http://railsonedge.blogspot.de/2008/04/dry-up-your-views-with-layouts-for-your.html-->
+
+<div class="preview">
+<%= image_tag('month.jpg') %>
+
+
+  <div style="position:relative;left:30px;top:-290px;font-size: 32px;">
+    <%= Date::MONTHNAMES[month]%>
+  </div>
+
+  <div style="position:relative;left:30px;top:-280px;font-size: 32px;">
+    <%= year %>
+  </div>
+
+
+</div>

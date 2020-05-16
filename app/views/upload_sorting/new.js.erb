@@ -1,0 +1,17 @@
+$('#new_document')[0].reset();
+$('.page_sort').fadeOut('slow', function () {
+    $('.page_sort').remove();
+    $("#save_status").html("<%= escape_javascript(render(:partial => 'save_status', :locals => { :error => @error, :result =>@result})) %>");
+});
+$('a#link_sort_count').text("<%=show_link_pages_sorted%>");
+
+
+<%unless @pdf_name=="" %>
+var link = document.getElementById("download_csv");
+link.href = '<%= j download_pdf_path(@document.id)  %>';
+link.download = '<%= j @pdf_name %>';
+link.click();
+<%end %>
+
+
+

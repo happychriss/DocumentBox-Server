@@ -1,0 +1,77 @@
+<div style="clear:both;" xmlns="http://www.w3.org/1999/html"></div>
+<%= javascript_pack_tag "upload_sorting_new" %>
+
+
+<div class="document_frame">
+
+  <!--------------------------------------- list new uploaded pages -->
+  <ul class="document_page_index" id="sortable1">
+
+        <span id='scan_menu'>
+          <%= link_to 'Check Scanner', {:controller => 'scanners', :action => "scan_info", :remote => true}, {:style => 'font-size:18px', :id => 'scan_menu_link'} %>
+          <%= image_tag('small_spinner.gif', :style => 'display:none', :id => 'scan_menu_spinner') %>
+        </span>
+
+    <div style="clear:both;"></div>
+
+    <% unless @pages.nil? then %>
+        <% @pages.each do |page| %>
+            <%= render :partial => 'page_uploaded', :locals => {:page => page} %>
+        <% end %>
+        <div style="clear:both;"></div>
+    <% end %>
+
+  </ul>
+
+
+  <!--------------------------------------- create a new document from uploaded pages -->
+  <div class="document_sort_frame">
+    <h1>Drop pages here to sort for upload</h1>
+
+    <div style="margin-left: 10px; margin-right: 10px;">
+
+      <%= form_for(@document, :url => {:controller => 'upload_sorting', :action => 'create'}) do |f| %>
+
+          <ul class="document_sort" id="sortable2">
+            <%= render :partial => 'pages_sorted', :locals => {:pages_sorted => @pages_sorted} %>
+          </ul>
+
+          </br>
+
+          <div class="input_area">
+            <p>
+              Comment:  <%= f.text_field :comment, size: 40 %>
+              <span style="margin-left: 20px"> Created:  <%= f.text_field "created_at", data: { behavior: "flatpickr" }, size: 8 %></span>
+            </p>
+
+            <%= render :partial => '/keywords', :locals => {:current_keywords => @document.keyword_ids} %>
+
+            </br></br>
+
+            <div style="background-color:#e3e3e3;">
+            <span style="margin-left:10px">
+                Delete after years: <%= f.select(:delete_at, options_for_select([['1', Date.today+1.year], ['2', Date.today+2.year], ['5', Date.today+5.year]]), {:include_blank => ''}, :id => 'lb_no_delete') %>
+              </span>
+              <span style="margin-left:20px">
+                Change Folder: <%= f.select(:folder_id, options_from_collection_for_select(Folder.all, 'id', 'name'), {:selected=> Folder.first.id}) %>
+              </span>
+
+              <span style="margin-left:20px">
+                 Never delete this file: <%= f.check_box(:no_delete, :id => 'cb_no_delete') %>
+              </span>
+            </div>
+            </br></br>
+            <!------- check Javascripts, upload_search_sorting --->
+            <%= f.submit "Upload", :id => "id_upload_btn", :name => "name_upl" %>
+            <%= f.submit "PDF", :id => "id_pdf_btn", :name => "name_pdf" %>
+          </div>
+      <% end %>
+    </div>
+
+
+  </div>
+
+
+</div>
+<!--- This is used for the PDF download, so the javascript has an option to create a hidden link --->
+<a id = "download_csv" hidden></a>

@@ -1,0 +1,25 @@
+
+// Deletes pages (after deleting from controller,checking first if in index or sort page. sends update trigger to sortable
+console.log("I am before");
+
+$("#page_<%=@page.id%>").fadeOut('slow', function () {
+console.log("I am in");
+
+    var page = $("#page_<%=@page.id%>");
+
+    var b_in_sort_frame = false;
+
+    if (page.closest('div[class*="document_sort_frame"]').length = 1) {
+
+        b_in_sort_frame = true
+    }
+
+    page.remove();
+    if (b_in_sort_frame) {
+
+        $("#sortable2").trigger('updatesort');
+    }
+
+    $('a#link_sort_count').text("<%=show_link_pages_sorted%>");
+});
+

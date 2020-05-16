@@ -1,0 +1,32 @@
+<div class="input_area" style="min-height: 40px">
+
+  <%= form_tag start_scanner_path, :remote => true do %>
+
+    <div style="float: left;width: 45%;">
+      <%= submit_tag("Scann", :id => :scann_button) %>
+      <%= select_tag(:scanner_name, options_for_select(@scanner_device_list), {:include_blank => false}) %>
+      Color: <%= check_box_tag(:color, '1',true) %>
+    </div>
+
+    <div style="display:inline-block;width: 40%;margin-top: 7px;">
+        Status:
+        <span id="scanner_status" style="font-weight:bold;">No Message</span>
+      </div>
+
+    <div style="display:inline-block;width: 15%;margin-top: 7px;">
+      OCR:
+      <span id="convert_status" style="font-weight:bold;">No Message</span>
+    </div>
+
+      <div style="float: right;margin-top: 7px;">
+        <%= image_tag('small_spinner2.gif', :style => 'display:none;float:right', :id => 'scann_working_spinner') %>
+      </div>
+
+
+  <% end %>
+
+
+</div>
+
+
+

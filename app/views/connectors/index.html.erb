@@ -1,0 +1,25 @@
+<div class="status_frame">
+  <h1>Listing connections</h1>
+
+  <table>
+    <tr>
+      <th>Uid</th>
+      <th>Service</th>
+      <th>Prio</th>
+      <th>Uri</th>
+      <th></th>
+    </tr>
+
+    <% @connectors.each do |connection| %>
+      <tr>
+        <td><%= connection.uid %></td>
+        <td><%= connection.service %></td>
+        <td><%= connection.prio %></td>
+        <td><%= connection.uri %></td>
+        <td><%= link_to 'Destroy',connection,method: :delete,data: {confirm: 'Are you sure?'} %></td>
+      </tr>
+    <% end %>
+  </table>
+
+  <br />
+</div>

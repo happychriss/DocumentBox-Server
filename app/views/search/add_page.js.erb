@@ -1,0 +1,5 @@
+// called when a single pate is dropped to existing pages
+$("#page_<%=@drag_page.id%>").remove();
+$("#page_<%=@drop_page.id%>").replaceWith("<%= escape_javascript(render :partial => 'page', :locals => {:page => @drop_page}) %>");
+DropPages(); //replaceWith will remove the dragable event
+

@@ -1,0 +1,12 @@
+<div id="keywords">
+    <div class="form-field">
+    <% Tag.all.each do |tag| %>
+        <div style="float:left;min-width:70px">
+          <%= check_box_tag("document[keyword_list][]", tag.id, current_keywords.include?(tag.id)) %>  <label><%= tag.name %>  </label>
+        </div>
+    <% end %>
+    <div class="clear"></div>
+  </div>
+</div>
+
+

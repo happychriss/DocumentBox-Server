@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>DBServer</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+  </head>
+
+  <body>
+  <div id="container">
+    <div id="menu">
+      <ul>
+        <li><%= link_to "Search", search_path %></li>
+        <li><%= link_to  show_link_pages_sorted, new_upload_sorting_path, :id=>'link_sort_count' %></li>
+        <li><%= link_to "Upload a File", new_upload_path %></li>
+        <li><%= link_to "Print Cover", new_cover_path %></li>
+        <li><%= link_to "(Maintain Documents)", documents_path, :style => 'color:gray'%></li>
+        <li><%= link_to "(Maintain Folders)", folders_path,:style => 'color:gray' %></li>
+        <li><%= link_to "(Maintain Tags)", tags_path,:style => 'color:gray' %></li>
+
+        <span style="color: orange; font-size: small; float: right;padding-right: 10px" id='application_status'>
+            Connection pending: <%= render(:partial => '/app_status',:locals => {:worker_message =>"hi"})%>
+       </span>
+        <br class="clear" />
+      </ul>
+    </div>
+    <%= content_tag :h1, yield(:title) if show_title? %>
+    <%= yield %>
+  </div>
+
+  </body>
+</html>
