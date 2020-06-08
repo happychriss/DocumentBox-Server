@@ -1,15 +1,15 @@
-<% status_summary= Page.group(:status).count %>
-Upload:<%= status_summary[Page::UPLOADED].presence ||'0' %> |
-Convert:<%= status_summary[Page::UPLOADED_PROCESSING].presence || '0' %> |
+<% status_summary= Page.status_hash %>
+Upload:<%= status_summary[:upload] %> |
+Convert:<%= status_summary[:convert] %> |
 
-<% pending_backups=Page.uploading_status(:no_backup) %>
+<% pending_backups=status_summary[:pending_backup] %>
 
-<% if pending_backups!=0 %>
+<% if pending_backups!="0" %>
     <span style="color: yellow"> No Backup: <%= pending_backups %></span>  |
 <% end %>
 
-<% pending_ocr=Page.uploading_status(:no_ocr) %>
-<% if pending_ocr!=0 %>
+<% pending_ocr=status_summary[:pending_ocr] %>
+<% if pending_ocr!="0" %>
     <span style="color: yellow">No OCR: <%= pending_ocr %></span> |
 <% end %>
 

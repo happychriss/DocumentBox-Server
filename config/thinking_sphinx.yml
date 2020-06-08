@@ -3,7 +3,7 @@ development:
   configuration_file:  ../SphinxFiles/sphinx.conf
   binlog_path:  ../log
   bin_path: /usr/bin
-  indices_location: ../r6SphinxFiles
+  indices_location: ../SphinxFiles
   morphology: libstemmer_de
   charset_table: "0..9, A..Z->a..z, a..z, U+C4->U+E4, U+D6->U+F6, U+DC->U+FC, U+E4, U+F6, U+FC, U+DF"
 production:

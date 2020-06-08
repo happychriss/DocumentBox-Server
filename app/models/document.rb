@@ -3,22 +3,20 @@ class Document < ActiveRecord::Base
   require 'tempfile'
 
 
-  has_many :pages,  -> { order :position}, dependent: :destroy
-  belongs_to :folder,  optional: true
-  belongs_to :cover,  optional: true
+  has_many :pages, -> { order :position }, dependent: :destroy
+  belongs_to :folder, optional: true
+  belongs_to :cover, optional: true
 
   accepts_nested_attributes_for :pages, :allow_destroy => true
   acts_as_taggable_on :keywords
 
-  before_update :update_status_new_document
   before_save :update_expiration_date
   before_destroy :check_no_delete
-
 
   #### Status
   DOCUMENT = 0 ##document was created based on an uploaded document
   DOCUMENT_FROM_PAGE_REMOVED = 1 ##document was created, as a page was removed from an existing doc
-  DOCUMENT_PDF_ONLY = 2
+  DOCUMENT_NOT_ARCHIVED = 2
 
 
   ########################################################################################################
@@ -33,10 +31,10 @@ class Document < ActiveRecord::Base
 
     documents = Document.search(search_string, search_config)
 
-    puts "Document ******************************************"
-    puts "SearchConfig: #{search_config}"
-    puts "SearchString: #{search_string}"
-    puts "***************************************************"
+    Rails.logger.info  "Document ******************************************"
+    Rails.logger.info  "SearchConfig: #{search_config}"
+    Rails.logger.info  "SearchString: #{search_string}"
+    Rails.logger.info  "***************************************************"
 
     return documents
 
@@ -61,15 +59,19 @@ class Document < ActiveRecord::Base
   def update_after_page_change
     self.page_count = self.pages.count
 
-    ### if documents has pages with non-pdf-mime type, no complete PDF page can be generated
-    if self.pages.where("pdf_exists=false").count > 0
-      self.complete_pdf = false
+    if self.page_count == 0
+      self.destroy
     else
-      self.complete_pdf = true
+
+      ### if documents has pages with non-pdf-mime type, no complete PDF page can be generated
+      if self.pages.where("pdf_exists=false").count > 0
+        self.complete_pdf = false
+      else
+        self.complete_pdf = true
+      end
+
+      self.save!
     end
-
-    self.save!
-
   end
 
 
@@ -88,11 +90,11 @@ class Document < ActiveRecord::Base
 
   def pretty_filename
     if cover_page.source == Page::PAGE_SOURCE_UPLOADED
-      File.basename(cover_page.original_filename)+".pdf"
+      File.basename(cover_page.original_filename) + ".pdf"
     elsif comment.length > 0
-      comment[0, 20].gsub(" ", "_").gsub('ä', 'a').gsub('ö', 'o').gsub('ü', 'u').chars.select(&:ascii_only?).join+".pdf"
+      comment[0, 20].gsub(" ", "_").gsub('ä', 'a').gsub('ö', 'o').gsub('ü', 'u').chars.select(&:ascii_only?).join + ".pdf"
     else
-      "docbox_d#{id}_p#{cover_page.id}_#{created_at.strftime("%Y%m%d")}"+".pdf"
+      "docbox_d#{id}_p#{cover_page.id}_#{created_at.strftime("%Y%m%d")}" + ".pdf"
     end
 
   end
@@ -102,9 +104,6 @@ class Document < ActiveRecord::Base
   ##http://stackoverflow.com/questions/4902804/using-delta-indexes-for-associations-in-thinking-sphinx
 
 
-  def update_status_new_document
-    self.status = DOCUMENT if self.status_was == DOCUMENT_FROM_PAGE_REMOVED
-  end
 
   def update_expiration_date
     self.delete_at = nil if self.delete_at == Date.new(3000) #to allow reset the date back to null (newer expire)

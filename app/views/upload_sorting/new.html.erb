@@ -16,7 +16,7 @@
 
     <% unless @pages.nil? then %>
         <% @pages.each do |page| %>
-            <%= render :partial => 'page_uploaded', :locals => {:page => page} %>
+            <%= render :partial => 'uploads/page_uploaded', :locals => {:page => page} %>
         <% end %>
         <div style="clear:both;"></div>
     <% end %>
@@ -41,7 +41,7 @@
           <div class="input_area">
             <p>
               Comment:  <%= f.text_field :comment, size: 40 %>
-              <span style="margin-left: 20px"> Created:  <%= f.text_field "created_at", data: { behavior: "flatpickr" }, size: 8 %></span>
+              <span style="margin-left: 20px"> Created:  <%= f.text_field "created_at",:value => Date.today.to_s, data: { behavior: "flatpickr" }, size: 8 %></span>
             </p>
 
             <%= render :partial => '/keywords', :locals => {:current_keywords => @document.keyword_ids} %>

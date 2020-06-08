@@ -1,6 +1,6 @@
 import consumer from "./consumer"
 
-consumer.subscriptions.create("ScannerStatusUpdateChannel", {
+consumer.subscriptions.create("ScannerUpdateChannel", {
   connected() {
     // Called when the subscription is ready for use on the server
   },
@@ -11,7 +11,6 @@ consumer.subscriptions.create("ScannerStatusUpdateChannel", {
 
   received(data) {
     // Called when there's incoming data on the websocket for this channel
-    const element=document.getElementById("convert_status");
-    element.innerHTML=data.content
+    eval(data.content)
   }
 });

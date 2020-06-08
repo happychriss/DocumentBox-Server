@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_15_204706) do
+ActiveRecord::Schema.define(version: 2020_05_25_202535) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 2020_05_15_204706) do
     t.string "uri", limit: 255
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["service"], name: "index_connectors_on_service"
   end
 
   create_table "covers", id: :serial, force: :cascade do |t|
@@ -79,6 +80,10 @@ ActiveRecord::Schema.define(version: 2020_05_15_204706) do
     t.string "mime_type", limit: 255
     t.boolean "ocr", default: false
     t.boolean "pdf_exists", default: false
+    t.index ["backup"], name: "index_pages_on_backup"
+    t.index ["document_id"], name: "index_pages_on_document_id"
+    t.index ["ocr"], name: "index_pages_on_ocr"
+    t.index ["status"], name: "index_pages_on_status"
   end
 
   create_table "taggings", id: :serial, force: :cascade do |t|

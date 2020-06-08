@@ -1,7 +1,8 @@
+require 'Pusher'
 
 
 class UploadSortingController < ApplicationController
-
+  include Pusher
   before_action :accept_all_params
 
   def new
@@ -29,7 +30,7 @@ class UploadSortingController < ApplicationController
       begin
 
         @document = Document.new(params[:document])
-        @document.status = Document::DOCUMENT_PDF_ONLY unless params.key?(:id_upload_btn) #only PDF, no backup needed
+        @document.status = Document::DOCUMENT_NOT_ARCHIVED unless params.key?(:id_upload_btn) #only PDF, no backup needed
         @document.save!
 
         params[:page].each_with_index do |page_id, position|
@@ -47,7 +48,7 @@ class UploadSortingController < ApplicationController
 
     ## backup new document to Amazon
     if params.key?(:id_upload_btn)
-      BackupWorker.perform_async(@document.id)
+      BackupJob.perform_later(@document.id)
       @pdf_name=""
       render action: "new"
   ## create PDF only and use download_pdf
@@ -56,6 +57,8 @@ class UploadSortingController < ApplicationController
       @pdf_name=File.basename(pdf_file)
       render action: "new"
     end
+
+    push_app_status
 
   end
 
@@ -67,6 +70,8 @@ class UploadSortingController < ApplicationController
     pdf=document.pdf_file
     send_file(pdf.path, :type => 'application/pdf', :page => '1')
     pdf.close
+    document.destroy if document.status ==Document::DOCUMENT_NOT_ARCHIVED #not needed anymore
+    push_app_status
   end
 
   #### Action triggered by CDClient UPload program

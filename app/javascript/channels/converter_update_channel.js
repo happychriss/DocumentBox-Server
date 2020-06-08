@@ -1,6 +1,6 @@
 import consumer from "./consumer"
 
-consumer.subscriptions.create("ConvertedPageChannel", {
+consumer.subscriptions.create("ConverterUpdateChannel", {
   connected() {
     // Called when the subscription is ready for use on the server
   },

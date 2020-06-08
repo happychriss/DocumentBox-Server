@@ -23,7 +23,7 @@
         <li><%= link_to "(Maintain Tags)", tags_path,:style => 'color:gray' %></li>
 
         <span style="color: orange; font-size: small; float: right;padding-right: 10px" id='application_status'>
-            Connection pending: <%= render(:partial => '/app_status',:locals => {:worker_message =>"hi"})%>
+            <%= render(:partial => '/app_status',:locals => {:worker_message =>"hi"})%>
        </span>
         <br class="clear" />
       </ul>

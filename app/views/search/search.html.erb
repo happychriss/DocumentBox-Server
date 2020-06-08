@@ -1,3 +1,6 @@
+<%= javascript_pack_tag "search" %>
+<%= javascript_pack_tag "clickzoom" %>
+
 <%= form_tag('/found', :method => "get", :class => "input_area") do %>
 
     <%= text_field_tag(:q, @q, :size => 40, :id => 'search_input') %>

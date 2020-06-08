@@ -1,9 +1,10 @@
 require 'Pusher'
 class StatusController < ApplicationController
   before_action :accept_all_params
+  skip_before_action :verify_authenticity_token
   include Pusher
 
-  skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
+#  skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
   #http://stackoverflow.com/questions/9362910/rails-warning-cant-verify-csrf-token-authenticity-for-json-devise-requests
 
   # GET /status
@@ -29,7 +30,7 @@ class StatusController < ApplicationController
   end
 
   def trigger_backup
-    BackupWorker.perform_async
+    BackupJob.perform_later
     redirect_to :action => :index
   end
 

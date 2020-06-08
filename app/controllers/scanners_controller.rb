@@ -1,6 +1,7 @@
 require 'Pusher'
 
 class ScannersController < ApplicationController
+  skip_before_action :verify_authenticity_token
   before_action :accept_all_params
   include Pusher
 
@@ -19,13 +20,6 @@ class ScannersController < ApplicationController
       #DETE: respond_to(:js) #scan_info.js.erb
   end
 
-  ### called from scanner, this will trigger the Pusher in view
-  def scan_status
-    @message=params[:message]
-    @scan_complete=(params[:scan_complete]=='true')
-    TouchSwitch.send_status(@message,@scan_complete)
-    render('scan_status', :handlers => [:erb], :formats => [:js])
-  end
 
   def start_scanner
 

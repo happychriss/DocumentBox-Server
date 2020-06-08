@@ -31,5 +31,8 @@ module DBServer
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    #https://github.com/mperham/sidekiq/wiki/Active-Job
+    config.active_job.queue_adapter = :sidekiq
   end
 end

@@ -1,5 +1,9 @@
 // Sorting the order of docs by updating the position hidden field
-this.UpdateDocumentPages = function () {
+require("jquery-ui/ui/widgets/sortable")
+require("jquery-ui/ui/widgets/draggable")
+require("jquery-ui/ui/widgets/droppable")
+
+UpdateDocumentPages = function () {
 
     $('.doc_sort_list').sortable({
         dropOnEmpty: false,

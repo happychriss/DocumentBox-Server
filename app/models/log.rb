@@ -6,12 +6,12 @@ class Log < ActiveRecord::Base
 
 
   def self.write_status(source,message)
-    log = Log.new(:source => source, :message => message,:messagetype => STATUS )
+    log = Log.new(:source => source, :message => message.truncate(255),:messagetype => STATUS )
     log.save!
   end
 
   def self.write_error(source,message)
-    log = Log.new(:source => source, :message => message,:messagetype => ERROR )
+    log = Log.new(:source => source, :message => message.truncate(255),:messagetype => ERROR )
     log.save!
   end
 

@@ -8,22 +8,15 @@ class Page < ActiveRecord::Base
   include FileSystem
   include ThinkingSphinx::Scopes
 
-  #
-  # sphinx_scope(:weight) {
-  #       {:field_weights => {:document_comment => 2, :content => 1}}
-  # }
-  #
-  # default_sphinx_scope :weight
-
 
   attr_accessor :upload_file
 
   belongs_to :document, optional: true
-  belongs_to :org_folder, :class_name => 'Folder',  optional: true
+  belongs_to :org_folder, :class_name => 'Folder', optional: true
   belongs_to :org_cover, :class_name => 'Cover', optional: true
 
 
-  #### Page Status flow
+#### Page Status flow
   UPLOADED = 0 # page just uploaded, waiting for processing
   UPLOADED_PROCESSING = 1 # pages is being processed (OCR)
   UPLOADED_PROCESSED = 3 # pages was processed by worker (content added)
@@ -41,7 +34,7 @@ class Page < ActiveRecord::Base
   PAGE_NO_PREVIEW = 0
 
 
-  ##
+##
   PAGE_DEFAULT_SCAN_MIME_TYPE = 'application/pdf'
 
   PAGE_MIME_TYPES = {'application/pdf' => :PDF,
@@ -56,12 +49,12 @@ class Page < ActiveRecord::Base
   }
 
 
-  ## all pages per folder
-  #scope :per_folder, lambda { |fid|
-  #  joins("LEFT OUTER JOIN `documents` ON `documents`.`id` = `pages`.`document_id`").joins("LEFT OUTER JOIN folders ON folders.id = documents.folder_id").where("documents.folder_id=#{fid}")
-  # }
+## all pages per folder
+#scope :per_folder, lambda { |fid|
+#  joins("LEFT OUTER JOIN `documents` ON `documents`.`id` = `pages`.`document_id`").joins("LEFT OUTER JOIN folders ON folders.id = documents.folder_id").where("documents.folder_id=#{fid}")
+# }
 
-  ## all pages without  cover
+## all pages without  cover
   scope :per_folder_no_cover, lambda { |fid|
     joins(:document).where("cover_id is null and folder_id=#{fid} and pages.status=#{Page::UPLOADED_PROCESSED}")
   }
@@ -71,27 +64,28 @@ class Page < ActiveRecord::Base
   }
 
 
-  ## all pages per cover
+## all pages per cover
   scope :per_cover, lambda { |cid|
     joins("LEFT OUTER JOIN documents ON documents.id = pages.document_id").joins("LEFT OUTER JOIN covers ON covers.id = documents.cover_id").where("documents.cover_id=#{cid}")
   }
 
-  ### Thinking Sphinx
+### Thinking Sphinx
   after_commit :set_delta_flag
 
   def set_delta_flag
     unless self.document.nil?
+      self.document.reload
       self.document.update_attribute(:delta, true)
     end
   end
 
-  ########################################################################################################
-  ### this page is displayed first in search results with all pages that have been removed from document
+########################################################################################################
+### this page is displayed first in search results with all pages that have been removed from document
   def self.new_document_pages
     pages = Page.search("", Page.get_search_config(1, :relevance).merge!({:with => {:document_status => Document::DOCUMENT_FROM_PAGE_REMOVED}}))
   end
 
-  ########################################################################################################
+########################################################################################################
 
   def folder
     return nil if self.document.nil?
@@ -106,7 +100,7 @@ class Page < ActiveRecord::Base
   end
 
 
-  ### check, if a PDF file for a page exists, can be as original or it was loaded later
+### check, if a PDF file for a page exists, can be as original or it was loaded later
   def pdf_path
     if self.mime_type == 'application/pdf'
       path(:org)
@@ -116,7 +110,7 @@ class Page < ActiveRecord::Base
   end
 
 
-  ### thats a nightmare, I admit
+### thats a nightmare, I admit
   def pretty_filename(type)
 
     ## determine basename
@@ -124,9 +118,9 @@ class Page < ActiveRecord::Base
       fn = File.basename(original_filename)
     else
       if !self.document.comment.nil? and self.document.comment.length > 0
-        fn = self.document.comment[0, 20].gsub(" ", "_").gsub('ä', 'a').gsub('ö', 'o').gsub('ü', 'u').chars.select(&:ascii_only?).join+"_"+(position+1).to_s
+        fn = self.document.comment[0, 20].gsub(" ", "_").gsub('ä', 'a').gsub('ö', 'o').gsub('ü', 'u').chars.select(&:ascii_only?).join + "_" + (position + 1).to_s
       else
-        fn = "docbox_d#{document.id}_p#{id}_#{created_at.strftime("%Y%m%d")}"+"_"+(position+1).to_s
+        fn = "docbox_d#{document.id}_p#{id}_#{created_at.strftime("%Y%m%d")}" + "_" + (position + 1).to_s
       end
     end
 
@@ -152,7 +146,7 @@ class Page < ActiveRecord::Base
     not self.document.nil?
   end
 
-  ## to read PDF and so on as symbols
+## to read PDF and so on as symbols
 
   def self.uploading_status(mode)
     result = case mode
@@ -169,6 +163,18 @@ class Page < ActiveRecord::Base
              else
                'ERROR'
              end
+  end
+
+### prepare status information and return as hash
+  def self.status_hash
+    res = Hash.new
+      res[:upload] = Page.uploaded_pages.count.to_s
+      res[:convert] = Page.uploading_status(:not_converted).to_s
+      res[:pending_backup] = Page.uploading_status(:no_backup).to_s
+      res[:pending_ocr] = Page.uploading_status(:no_ocr).to_s
+
+    puts "Status Summary:"+res.to_s
+    return res
   end
 
   def document_pages_count
@@ -207,10 +213,8 @@ class Page < ActiveRecord::Base
       if self.document_pages_count == 1 then
         self.document.destroy
       else
-
         document = self.document
         self.destroy
-
         ### Clean up the document and the remaining pages
         CleanPositionsOnRemove(document.id, position) ## update position of remaining pages
         document.update_after_page_change
@@ -223,7 +227,7 @@ class Page < ActiveRecord::Base
 
   end
 
-  ## remove from document and create a new document
+## remove from document and create a new document
   def move_to_new_document
 
     ## save all values
@@ -243,7 +247,7 @@ class Page < ActiveRecord::Base
 
   end
 
-  ## add new page to a document
+## add new page to a document
   def add_to_document(document, position = document.page_count - 1)
 
     self.transaction do
@@ -271,7 +275,7 @@ class Page < ActiveRecord::Base
     self.update_attributes(:status => status)
   end
 
-  ### clean all pages, that got stucked in upload processing, because converter daemon crashed. shall be called when converter daemon connects again
+### clean all pages, that got stucked in upload processing, because converter daemon crashed. shall be called when converter daemon connects again
   def self.clean_pending
     Page.where(:status => Page::UPLOADED_PROCESSING).update_all(:status => Page::UPLOADED)
   end
@@ -292,7 +296,7 @@ class Page < ActiveRecord::Base
   end
 
 
-  ### convert a page into a jpg file
+### convert a page into a jpg file
 
   def jpg_file
     tmp_jpg_file_root = File.join(Dir.tmpdir, "cd_#{self.id}")
@@ -308,31 +312,31 @@ class Page < ActiveRecord::Base
 
   end
 
-  ##### mime type is stored in database as long text application/pdf for example
+##### mime type is stored in database as long text application/pdf for example
 
-  # mime type of original stored document
+# mime type of original stored document
 
   def short_mime_type
     Page::PAGE_MIME_TYPES[self.mime_type]
   end
 
-  # set of helper functions to check for converter processing, room for improvement
+# set of helper functions to check for converter processing, room for improvement
 
-  # Mobile app is "hiding" in filename, if scan should be processed as foto or letter in converter
-  # if processed as foto, the orginal document will be the JPG, and an additional PDF is added
-  # if processed as letter, the original document will be the PDF, same as for normal scanning
+# Mobile app is "hiding" in filename, if scan should be processed as foto or letter in converter
+# if processed as foto, the orginal document will be the JPG, and an additional PDF is added
+# if processed as letter, the original document will be the PDF, same as for normal scanning
 
   def convert_as_foto?
     return false if original_filename.nil?
     original_filename.include? "foto"
   end
 
-  # data from scanner or from mobile, when taking with "letter" option will have PDF as orginal, and no additional PDF
+# data from scanner or from mobile, when taking with "letter" option will have PDF as orginal, and no additional PDF
   def calc_pdf_as_org?
-    ((self.source == PAGE_SOURCE_SCANNED or self.source==PAGE_SOURCE_MIGRATED) or (self.source == PAGE_SOURCE_MOBILE and not convert_as_foto?))
+    ((self.source == PAGE_SOURCE_SCANNED or self.source == PAGE_SOURCE_MIGRATED) or (self.source == PAGE_SOURCE_MOBILE and not convert_as_foto?))
   end
 
-  ### if an original as JPG already exists and this is called a second time, the PDF will be stored
+### if an original as JPG already exists and this is called a second time, the PDF will be stored
   def save_file(file_path, file_type)
 
     path = file_path.tempfile
@@ -342,7 +346,7 @@ class Page < ActiveRecord::Base
   end
 
 
-  #### updates files system with conversion results and updates database status
+#### updates files system with conversion results and updates database status
   def update_conversion(result_jpg, result_sjpg, result_orginal, result_txt)
 
     self.save_file(result_sjpg, :s_jpg) unless result_sjpg.nil? # small preview pic
@@ -371,7 +375,7 @@ class Page < ActiveRecord::Base
   private
 
   def CleanPositionsOnRemove(document_id, position)
-    Page.update_all("position = position -1", "document_id = #{document_id} and position > #{position}")
+    Page.where("document_id = #{document_id} and position > #{position}").update_all("position=position-1")
   end
 
 

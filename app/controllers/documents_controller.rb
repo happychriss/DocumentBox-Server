@@ -1,5 +1,6 @@
 class DocumentsController < ApplicationController
   before_action :accept_all_params
+  skip_before_action :verify_authenticity_token
 
   # GET /documents/1/edit
   def edit
@@ -16,7 +17,8 @@ class DocumentsController < ApplicationController
 
     begin
 
-        @document.update_attributes(params[:document])
+      @document.status = Document::DOCUMENT if @document.status == Document::DOCUMENT_FROM_PAGE_REMOVED  #document was changed by user
+      @document.update_attributes(params[:document])
 
       unless session[:search_results].nil?
             redirect_to session[:search_results]+"#page_#{@document.pages.first.id}", :notice => "Successfully updated doc."
@@ -102,7 +104,7 @@ class DocumentsController < ApplicationController
 
   def delete_documents
     flash[:notice] = "Deleting documents end of lifecycle triggered"
-    RemoveFromArchiveWorker.perform_async
+    RemoveFromArchiveJob.perform_async
     redirect_to :action => 'index'
   end
 

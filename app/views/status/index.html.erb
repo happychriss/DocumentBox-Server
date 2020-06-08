@@ -24,16 +24,16 @@
     </tr>
 
     <% Connector.all.each do |connection| %>
-        <tr>
-          <td><%= connection.uid %></td>
-          <td><%= connection.service %></td>
-          <td><%= connection.prio %></td>
-          <td><%= connection.uri %></td>
-        </tr>
+      <tr>
+        <td><%= connection.uid %></td>
+        <td><%= connection.service %></td>
+        <td><%= connection.prio %></td>
+        <td><%= connection.uri %></td>
+      </tr>
     <% end %>
   </table>
-<br/>
-  <%= button_to "Maintain Connections", connectors_path , :method => :get, :id =>nil %>
+  <br/>
+  <%= button_to "Maintain Connections", connectors_path, :method => :get, :id => nil %>
 
 </div>
 
@@ -41,16 +41,17 @@
   <h2>Documents not converted: <%= Page.uploading_status(:not_converted) %></h2>
   <h2>Documents pending conversion: <%= Page.uploading_status(:processing) %></h2>
   <% if Converter.connected? then %>
-      <h2>Connected to remote Converter!</h2>
-      <%= button_to "Trigger conversion & cleaning now ", status_start_conversion_path, :method => :get %>
+    <h2>Connected to remote Converter!</h2>
+    <%= button_to "Trigger conversion & cleaning now ", status_start_conversion_path, :method => :get %>
   <% else %>
-      <h2>Not connected !!!</h2>
+    <h2>Not connected !!!</h2>
   <% end %>
 </div>
 
 
 <div class="status_frame">
-  <h2>Documents without backup: <%= Page.uploading_status(:no_backup) %> <%= button_to "Trigger backup now", trigger_backup_path,:method => :get if Page.uploading_status(:no_backup)>0 %></h2>
+  <h2>Documents without
+    backup: <%= Page.uploading_status(:no_backup) %> <%= button_to "Trigger backup now", trigger_backup_path, :method => :get if Page.uploading_status(:no_backup) > 0 %></h2>
   Documents not converted will not be uploaded to backup
 </div>
 
@@ -65,17 +66,30 @@
 
   </br>
 
-  <%= button_to "Clear Logfile and Errors", status_clear_path,:method => :get %>
+  <%= button_to "Clear Logfile and Errors", status_clear_path, :method => :get %>
 
   </br>
 
   <table>
-  <% Log.order('created_at desc').all.each do |log| %>
+    <% Log.order('created_at desc').all.each do |log| %>
       <tr>
-        <td><%= log.created_at %></td>
-        <td><%= log.source %></td>
-        <td><%= log.message %></td>
+        <td style="border: 1px solid">
+          <% if log.messagetype == Log::ERROR %>
+            <p style="color:red">ERROR</p>
+          <% else %>
+            STATUS
+          <% end %>
+        </td>
+        <td style="border: 1px solid">
+          <%= log.created_at.localtime %>
+        </td>
+        <td style="border: 1px solid">
+          <%= log.source %>
+        </td>
+        <td style="border: 1px solid">
+          <%= log.message %>
+        </td>
       </tr>
-  <% end %>
-</table>
+    <% end %>
+  </table>
 </div>

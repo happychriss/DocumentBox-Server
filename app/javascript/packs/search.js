@@ -1,6 +1,9 @@
 // enable drag and drop for the search pages
+require("jquery-ui/ui/widgets/sortable")
+require("jquery-ui/ui/widgets/draggable")
+require("jquery-ui/ui/widgets/droppable")
 
-this.DropPages = function () {
+DropPages = function () {
     $(".search_draggable").draggable({
         revert: 'invalid',
         zIndex: 2000,

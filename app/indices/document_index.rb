@@ -3,4 +3,5 @@ ThinkingSphinx::Index.define(:document,  :with => :active_record,  :delta => tru
   indexes pages.content, :as => :page_content
   has taggings.tag_id, :as => :tags
   has created_at, :sortable => true
+  has status
 end

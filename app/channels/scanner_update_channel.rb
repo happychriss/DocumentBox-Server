@@ -1,6 +1,6 @@
-class ConvertedPageChannel < ApplicationCable::Channel
+class ScannerUpdateChannel < ApplicationCable::Channel
   def subscribed
-    stream_from "converted_page_channel"
+    stream_from "scanner_update_channel"
   end
 
   def unsubscribed

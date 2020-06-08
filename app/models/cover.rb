@@ -3,7 +3,7 @@ class Cover < ActiveRecord::Base
   require 'prawn'
 
   ### Changed for GIT
-  attr_accessible :folder_id
+
   has_many :documents
   belongs_to :folder
 
@@ -108,6 +108,7 @@ class Cover < ActiveRecord::Base
         cover.folder_id=folder_id
         cover.counter=(Cover.where(:folder_id => folder_id).maximum('counter').to_i)+1
         cover.save!
+        cover.reload
 
         # up pages
         ## needs to be done in two steps, as join with order and update does not work in rails
@@ -126,10 +127,10 @@ class Cover < ActiveRecord::Base
 
         self.connection.execute("SELECT SETVAL('pages_fid_seq', #{max_fid})") #https://kylewbanks.com/blog/Adding-or-Modifying-a-PostgreSQL-Sequence-Auto-Increment
 #        self.connection.execute("\\set fid_count #{max_fid}") #http://stackoverflow.com/questions/6412186/rails-using-sql-variables-in-find-by-sql
-        Page.update_all "org_folder_id=#{folder_id},org_cover_id=#{cover.id},fid=nextval('pages_fid_seq')", "id in (#{update_pages})", :order => 'id asc'
+        Page.where("id in (#{update_pages})").order("id asc").update_all("org_folder_id=#{folder_id},org_cover_id=#{cover.id},fid=nextval('pages_fid_seq')")
 
         # update documents (update, condition)
-        Document.update_all("cover_id = #{cover.id}", "folder_id = #{folder_id} and cover_id is null")
+        Document.where("folder_id = #{folder_id} and cover_id is null").update_all("cover_id = #{cover.id}")
       end
     end
 

@@ -3,5 +3,5 @@
    <%= image_tag "big_spinner.gif",style: "position:absolute;visibility:#{(page.status==Page::UPLOADED_PROCESSING) ? 'visible' : 'hidden'}", :id=>"process_ind_#{page.id.to_s}" %>
    <%= image_tag "attention.png",style: "position:absolute;visibility:#{page.status==Page::UPLOADED ? 'visible' : 'hidden'}", :id=>"attention_ind_#{page.id.to_s}" %>
 
-  <%= render :partial => 'upload_sorting/links_page_uploaded', :layout => '/show_page', :locals => {:page => page} %>
+  <%= render :partial => 'uploads/links_page_uploaded', :layout => '/show_page', :locals => {:page => page} %>
 </li>

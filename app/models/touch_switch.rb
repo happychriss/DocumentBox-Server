@@ -7,7 +7,7 @@ class TouchSwitch
   end
 
   def self.connect(connection_uri)
-    log "**** Daemon - Request: Create/Find connection for *Touchswitch* and uri:#{connection_uri}"
+    Rails.logger.info  "**** Daemon - Request: Create/Find connection for *Touchswitch* and uri:#{connection_uri}"
     connection = Connector.find_or_initialize_by_uid(connection_uri[:uid])
     connection.update_attributes(connection_uri)
     connection.save!
@@ -32,9 +32,9 @@ class TouchSwitch
           TCPSocket.open(tw_uri.host, tw_uri.port) { |s| s.puts message + "\n"; sleep 0.5 }
 
         rescue Errno::ECONNREFUSED, Errno::EHOSTUNREACH
-          log "**** Touchswitch not reachable as #{tw_uri.host}:#{tw_uri.port.to_s}"
+          Rails.logger.info  "**** Touchswitch not reachable as #{tw_uri.host}:#{tw_uri.port.to_s}"
         rescue => e
-          puts "************ ERROR *****: #{e.message}"
+          Rails.logger.info  "************ ERROR *****: #{e.message}"
           raise
         end
       end

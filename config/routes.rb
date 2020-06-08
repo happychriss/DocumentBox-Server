@@ -9,15 +9,19 @@ Rails.application.routes.draw do
     get 'show_status' => 'status#show_status'
     get 'sorting/destroy_page' => 'upload_sorting#destroy_page'
     get 'show_cover_pages/(:id)' => 'covers#show_cover_pages'
-    get 'upload_sorting/download_pdf(:id)' => 'upload_sorting#download_pdf', :as => :download_pdf
+    get 'upload_sorting/download_pdf/(:id)' => 'upload_sorting#download_pdf', :as => :download_pdf
 
     ### Upload from Client
+    ### called from scanner drb daemon ####
+    post 'scan_status' =>  'uploads#scan_status'
     post 'create_from_scanner_jpg' => 'uploads#create_from_scanner_jpg', :as => :create_from_scanner_jpg
     post 'create_from_upload' => 'uploads#create_from_upload'
     post 'upload_mobile' => 'uploads#create_from_mobile_jpg',:as => :upload_mobile
-
+    ### called from converter drb daemon ####
+    post 'convert_status' =>  'uploads#convert_status'
+    post 'convert_upload_preview_jpgs' =>  'uploads#convert_upload_preview_jpgs'
+    post 'convert_upload_pdf' =>  'uploads#convert_upload_pdf'
     get 'cd_server_status_for_mobile' => 'uploads#cd_server_status_for_mobile',:as => :cd_server_status_for_mobile
-
 
     ## Search Controller, non HABTM
     get 'pdf_doc/:id' => 'search#show_pdf_document', :as => :pdf_document
@@ -58,15 +62,10 @@ Rails.application.routes.draw do
     post 'start_scanner' => 'scanners#start_scanner'
     post 'start_scanner_from_hardware' => 'scanners#start_scanner_from_hardware'
     post 'start_copy_from_hardware' => 'scanners#start_copy_from_hardware'
-    post 'scan_status' =>  'scanners#scan_status'
     post 'scan_error' =>  'scanners#scan_error'
     post 'scan_info' =>  'scanners#scan_info'
 
-    ## ConverterController
-    ### called from scanner drb daemon ####
-    post 'convert_status' =>  'converters#convert_status'
-    post 'convert_upload_preview_jpgs' =>  'converters#convert_upload_preview_jpgs'
-    post 'convert_upload_pdf' =>  'converters#convert_upload_pdf'
+
 
     resources :folders
     resources :tags

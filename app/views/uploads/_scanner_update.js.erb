@@ -1,0 +1,13 @@
+$('#scanner_status').text("<%=h message%>");
+
+<% if scan_complete  %>
+$('#scann_working_spinner').hide();
+$('#scann_button').prop('disabled', false);
+$('#color').prop('disabled', false);
+<% end %>
+
+// New page was uploaded
+<% unless  page.nil?   %>
+$("#sortable1").append("<%= escape_javascript(render(:partial => 'uploads/page_uploaded', :locals => {:page => page})) %>");
+Sortable1();
+<% end %>

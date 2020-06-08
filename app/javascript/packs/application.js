@@ -16,7 +16,10 @@ require("flatpickr/dist/flatpickr.css")
 
 document.addEventListener("turbolinks:load", () => {
     flatpickr("[data-behavior='flatpickr']", {
-        dateFormat: "d.m.Y",
+        altInput: true,
+        altFormat: "d.m.Y",
+        dateFormat: "Y-m-d"
+
     })
 })
 

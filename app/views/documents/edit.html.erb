@@ -1,10 +1,16 @@
+<%= javascript_pack_tag "documents_edit" %>
+<%= javascript_pack_tag "clickzoom" %>
+<%= javascript_pack_tag "delete_no_logic" %>
+
+
 <% title "Adjust page order with drag and drop" %>
 
 <%= form_for(@document, :html => {:class => "input_area"}) do |f| %>
 
     <p>
       Comment:  <%= f.text_field :comment %>
-      <span style="margin-left: 20px"> Created:  <%= f.datepicker :created_at,:value => @document.created_at.to_s,:dateFormat => "dd.mm.yy",:changeYear => true,:changeMonth => true, :maxDate => 0 , size:8%></span>
+
+      <span style="margin-left: 20px"> Created:  <%= f.text_field "created_at", :value => @document.created_at.to_s, data: { behavior: "flatpickr" }, size: 8 %></span>
       <span style="margin-left:10px">Folder: <%= f.select(:folder_id, Folder.all.collect{|f| [f.name, f.id]}) %> </span>
       <span style="margin-left:10px">
         <%= if @document.delete_at.nil? then

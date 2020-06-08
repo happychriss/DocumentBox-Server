@@ -1,4 +1,4 @@
-this.DeleteNo = function () {
+DeleteNo = function () {
     $('#cb_no_delete').on('click', function () {
         CheckBoxChange(this)
     });
@@ -7,7 +7,7 @@ this.DeleteNo = function () {
         ListBoxChange(this)
     });
 }
-    this.ListBoxChange = function (obj) {
+    ListBoxChange = function (obj) {
         var value = $(obj).val();
         if (value != '') {
             $('#cb_no_delete').attr('disabled', 'disabled');
@@ -18,7 +18,7 @@ this.DeleteNo = function () {
 
     }
 
-    this.CheckBoxChange = function (obj) {
+    CheckBoxChange = function (obj) {
         if ($(obj).is(':checked')) {
             $('#lb_no_delete').attr('disabled', 'disabled');
         }
