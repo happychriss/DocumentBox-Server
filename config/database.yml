@@ -24,7 +24,7 @@ default: &default
 development:
   <<: *default
   database: docbox_development
-  username: development
+  username: <%= Rails.application.credentials[Rails.env.to_sym][:postgres_user] %>
   password: <%= Rails.application.credentials[Rails.env.to_sym][:postgres_password] %>
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -82,5 +82,5 @@ test:
 production:
   <<: *default
   database: DBServer_production
-  username: DBServer
+  username: <%= Rails.application.credentials[Rails.env.to_sym][:postgres_user] %>
   password: <%= Rails.application.credentials[Rails.env.to_sym][:postgres_password] %>
