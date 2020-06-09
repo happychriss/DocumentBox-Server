@@ -81,6 +81,6 @@ test:
 #
 production:
   <<: *default
-  database: DBServer_production
+  database: docbox_production
   username: <%= Rails.application.credentials[Rails.env.to_sym][:postgres_user] %>
   password: <%= Rails.application.credentials[Rails.env.to_sym][:postgres_password] %>

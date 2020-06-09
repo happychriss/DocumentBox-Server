@@ -248,16 +248,13 @@ Most simple to create a user "docbox"
 
 ```bash
 # configure a user for postgres
-sudo -u postgres psql 
-sudoedit //etc/postgresql/12/main/postgresql.conf 
 sudo -u postgres createuser -P -d docbox
 ```
 
+Now is assumed rails credentials are created and updated.
 
 ```bash
-cd DBServer/config
-cp database_example.yml database.yml #later you may change your db user or password
-cp s3_example.yml s3.yml #later you wil update here your s3 credentials
+
 rake db:create
 rake db:schema:load
 rake db:seed #will just create default values in the DB
