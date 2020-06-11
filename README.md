@@ -301,7 +301,7 @@ server and for assest management.
 ```bash
 cd DBServer
 sudo mv //etc/nginx/nginx.conf //etc/nginx/nginx.conf.bak
-sudo mv app_support/nginx.conf //etc/nginx/nginx.conf
+sudo mv nginx.conf //etc/nginx/nginx.conf
 ```
 
 Configure Sphinx
