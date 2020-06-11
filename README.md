@@ -193,14 +193,6 @@ cd /home/docbox/DBServer
 ln -s //data/docstore/ docstore
 ```
 
-```bash
-sudo mkdir //data
-sudo chown docbox //data
-cd //data
-mkdir docstore  #//data/docstore is folder for documents stored locally
-cd /home/docbox/DBServer
-ln -s //data/docstore/ docstore
-```
 Configure Credentials for DB and S3  using Rails Secret and MasterKey
 =====================
 Example credential file is provide in /config/credentials.example.yml.
@@ -208,6 +200,7 @@ To secure this data on your server, the file is protected with a secret that you
 In this project the file is added to .gitignore.
 You will need to create S3 storage and buckets for the documents uploaded and for a regular database backup. In addition
 you will use the PGP email address to keep your private pgp key configured.
+That file will be referred as 'credential-file' in the below sections.
 
 ```bash
 cd DBServer
@@ -244,7 +237,7 @@ Setup Postgres Database
 Ruby on Rails provides support to set-up and create a database. You will
 need user-name and password as selected when installing Postgres and update
 it in the file database.yml . For setting- up initial Postgres user, follow the standard instructions.
-Most simple to create a user "docbox"
+Most simple to create a user "docbox", username and password should be updated in the credential-file.
 
 ```bash
 # configure a user for postgres
@@ -278,20 +271,12 @@ SetUp Amazon S3 Bucket
 
 You need to create to buckets, one for the files and the second one for
 DB. You will need to collect the s3\_access\_key and s3\_secret\_key to
-enable DocumentBox to upload files.
-
-The buckets should be named in the production section:
+enable DocumentBox to upload files. The buckets should be named in the production section and updated in the credentials-file.
 ```text
 production.docbox.com
 production.docbox.db.com
 ```
 
-### Update Config Files with Credentials 
-
-The s3.yml file needs to be updated with above credentials:
-```bash
-DBServer/config/s3.yml
-```
 
 ### Configure gpg encryption for file-upload and backup
 
@@ -305,11 +290,7 @@ downloading it from Amazon S3, the key is stored in the following folder
 ```bash
 /home/docbox/.gnupg
 ```
-
-The email address used for the key needs to be updated in the file  
-```bash
-/DBServer/config/s3.yml #field gpg_email_address
-```
+The email address used for the key needs to be updated in the credentials-file  
 
 Configure nginx
 ===============
