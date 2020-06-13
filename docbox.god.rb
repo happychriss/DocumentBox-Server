@@ -38,7 +38,6 @@ God.watch do |w|
   w.behavior(:clean_pid_file)
 #  w.env           = {'HOME' => '/root'} ## for gpg
 end
-
 God.watch do |w|
   w.name          = 'clockwork'
   w.group         = 'docbox'
@@ -47,7 +46,6 @@ God.watch do |w|
   w.stop_grace    = 10.seconds
   w.interval      = 60.seconds
   w.dir           = CDSERVER_ROOT
-
   w.start         = "bundle exec clockwork ./services/cdserver_maintenance_job.rb & echo $! > #{CDSERVER_PID}/clockwork.pid"
   w.stop          = "kill -QUIT `cat #{CDSERVER_PID}/clockwork.pid`"
   w.keepalive
@@ -57,38 +55,19 @@ God.watch do |w|
   w.pid_file      = "#{CDSERVER_PID}/clockwork.pid"
 end
 
-God.watch do |w|
-  w.name          = "thin"
-  w.group         ='docbox'
-  w.dir           = CDSERVER_ROOT
-  w.start_grace   = 10.seconds
-  w.restart_grace = 10.seconds
-  w.interval      = 60.seconds
-  w.start         = "thin start --config ./thin_nginx.yml --log #{CDSERVER_LOG}/thin.log --pid //tmp/thin.pid"
-  w.stop          = "thin stop --pid //tmp/thin.pid"
-  w.restart       = "thin restart"
-  w.pid_file      = "//tmp/thin.pid" 
-  w.log           = "#{CDSERVER_LOG}/thin.log"  
-  w.keepalive
-end
-
-#fayae - privat pub gem from ryan
-God.watch do |w|
-  w.name          = "private_pub"
-  w.group         ='docbox'
-  w.dir           = CDSERVER_ROOT
-  w.start_grace   = 10.seconds
-  w.restart_grace = 10.seconds
-  w.interval      = 60.seconds
-  w.env           = {'RAILS_ENV' => "production" }
-  w.start         = "rackup private_pub.ru -s thin -E production -P #{CDSERVER_PID}/private_pub.pid"
-
-  w.log           = File.join(CDSERVER_LOG, 'private_pub.log')
-  w.pid_file      = "#{CDSERVER_PID}/private_pub.pid"
-  w.behavior :clean_pid_file
-  w.stop_signal = 'KILL'
-  w.keepalive
-end
+#God.watch do |w|
+#  w.name          = "unicorn"
+#  w.group         = "docbox"
+#  w.dir           = CDSERVER_ROOT
+#  w.start_grace   = 10.seconds
+#  w.restart_grace = 10.seconds
+#  w.interval      = 60.seconds
+#  w.start         = "bundle exec unicorn -c /home/docbox/DBServer/unicorn.conf.rb"
+#  w.pid_file      = "//tmp/unicorn.pid" 
+#  w.log           = "#{CDSERVER_LOG}/unicorn.log"  
+#  w.stop_signal   = 'QUIT'
+#  w.keepalive
+#end
 
 #avahi daemon to register the converter and scanner
 God.watch do |w|
@@ -137,14 +116,14 @@ God.watch do |w|
 end
 
 #touchswitch tst server
-God.watch do |w|
-  w.start_grace   = 10.seconds
-  w.env           = {'BUNDLE_GEMFILE' => '//home/docbox/DBServer/Gemfile'}
-  w.name 	  ='touchswitch_server'
-  w.group         ='docbox'
-  w.dir           = CDSERVER_ROOT
-  w.start         = "bundle exec ruby #{CDSERVER_ROOT}/tst.rb"
-  w.log           = "#{CDSERVER_LOG}/tst.log"
-  w.keepalive
-end
+#God.watch do |w|
+#  w.start_grace   = 10.seconds
+#  w.env           = {'BUNDLE_GEMFILE' => '//home/docbox/DBServer/Gemfile'}
+#  w.name 	  ='touchswitch_server'
+#  w.group         ='docbox'
+#  w.dir           = CDSERVER_ROOT
+#  w.start         = "bundle exec ruby #{CDSERVER_ROOT}/tst.rb"
+#  w.log           = "#{CDSERVER_LOG}/tst.log"
+#  w.keepalive
+#end
 

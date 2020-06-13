@@ -8,11 +8,13 @@
 /.bundle
 /.idea
 
+
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*
 !/log/.keep
 !/tmp/.keep
+*.swp
 
 # Ignore uploaded files in development.
 /storage/*
@@ -33,4 +35,5 @@ yarn-debug.log*
 
 
 # Project Specific files
-/public/docstore/
+/public/docstore
+
