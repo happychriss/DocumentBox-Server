@@ -42,6 +42,10 @@
     <orderEntry type="library" scope="PROVIDED" name="acts-as-taggable-on (v6.5.0, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="acts_as_list (v1.0.1, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="aws-eventstream (v1.1.0, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="aws-partitions (v1.329.0, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="aws-sdk-core (v3.99.1, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="aws-sdk-kms (v1.34.1, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="aws-sdk-s3 (v1.68.1, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="aws-sigv4 (v1.1.4, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bindex (v0.8.1, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bootsnap (v1.4.6, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
@@ -54,8 +58,10 @@
     <orderEntry type="library" scope="PROVIDED" name="crass (v1.0.6, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="dnssd (v2.0.1, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="erubi (v1.9.0, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="ffi (v1.13.1, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="flatpickr (v4.6.3.1, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="globalid (v0.4.2, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="god (v0.13.7, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="i18n (v1.8.3, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="innertube (v1.1.0, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="jbuilder (v2.10.0, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
@@ -90,6 +96,7 @@
     <orderEntry type="library" scope="PROVIDED" name="rake (v13.0.1, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rb-fsevent (v0.10.4, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rb-inotify (v0.10.1, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="redis (v4.2.1, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="riddle (v2.4.2, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby_dep (v1.5.0, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sass-rails (v6.0.0, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />

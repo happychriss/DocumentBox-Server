@@ -1,9 +1,10 @@
 <div id="keywords">
   <div class="form-field">
     <% Tag.all.each do |tag| %>
-        <div style="float:left;min-width:70px">
+
+          <div class="pretty p-default p-curve" style="float:left;min-width:70px;margin-top: 10px;">
           <%= check_box_tag("document[keyword_list][]", tag.name, current_keywords.include?(tag.id) || current_keywords.include?(tag.name)) %>
-          <label><%= tag.name %>  </label>
+            <div class="state p-warning"> <label><%= tag.name %>  </label></div>
         </div>
     <% end %>
 

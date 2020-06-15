@@ -9,6 +9,7 @@
     "flatpickr": "^4.6.3",
     "jquery": "^3.5.0",
     "jquery-ui": "^1.12.1",
+    "pretty-checkbox": "^3.0.3",
     "turbolinks": "^5.2.0",
     "webpack": "^4.43.0"
   },

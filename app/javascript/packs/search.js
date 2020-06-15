@@ -2,6 +2,7 @@
 require("jquery-ui/ui/widgets/sortable")
 require("jquery-ui/ui/widgets/draggable")
 require("jquery-ui/ui/widgets/droppable")
+require("pretty-checkbox/dist/pretty-checkbox.css")
 
 DropPages = function () {
     $(".search_draggable").draggable({

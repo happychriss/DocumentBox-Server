@@ -3,41 +3,49 @@
 
 <%= form_tag('/found', :method => "get", :class => "input_area") do %>
 
-    <%= text_field_tag(:q, @q, :size => 40, :id => 'search_input') %>
+  <%= text_field_tag(:q, @q, :size => 40, :id => 'search_input') %>
 
-    <span style="margin-left: 20px; font-size: large;">
-      Time:<%= radio_button_tag 'sort_mode', 'time', @sort_mode==:time %>
-    Relevance:<%= radio_button_tag 'sort_mode', 'relevance', @sort_mode==:relevance %>
+  <span style="margin-left: 20px; font-size: large;">
+<div class="pretty p-default p-curve">
+  <%= radio_button_tag 'sort_mode', 'time', @sort_mode == :time %>
+  <div class="state p-warning"> <label>Time</label> </div>
+    </div>
+
+      <div class="pretty p-default p-curve">
+   <%= radio_button_tag 'sort_mode', 'relevance', @sort_mode == :relevance %>
+        <div class="state p-warning"> <label>Relevance</label> </div>
+ </div>
+
 
     </span>
 
-    <%= render :partial => 'keywords', :locals => {:current_keywords => @current_keywords} %>
+  <%= render :partial => 'keywords', :locals => {:current_keywords => @current_keywords} %>
 
-    <p class='submit'> <%= submit_tag("Search") %></p>
+  <p class='submit'> <%= submit_tag("Search") %></p>
 <% end %>
 
 
 
 <% unless @documents_removed.nil? then %>
-    <% @documents_removed.each do |doc| %>
-        <%= render :partial => 'page', :locals => {:page => doc.cover_page} %>
-    <% end %>
+  <% @documents_removed.each do |doc| %>
+    <%= render :partial => 'page', :locals => {:page => doc.cover_page} %>
+  <% end %>
 <% end %>
 
 
 
 <% unless @documents.nil? then %>
-    <% current_month=0; current_year=1900 %>
-    <% @documents.each do |doc| %>
-        <%p_month=doc.created_at.month; p_year=doc.created_at.year %>
-        <% if @sort_mode == :time and (current_month!=p_month or current_year!=p_year) then %>
-            <% current_month=p_month; current_year=p_year %>
-            <%= render :partial => 'show_month_page', :locals => {:month => current_month, :year => current_year} %>
-        <% end %>
-
-        <%= render :partial => 'page', :locals => {:page => doc.cover_page} %>
-
+  <% current_month = 0; current_year = 1900 %>
+  <% @documents.each do |doc| %>
+    <% p_month = doc.created_at.month; p_year = doc.created_at.year %>
+    <% if @sort_mode == :time and (current_month != p_month or current_year != p_year) then %>
+      <% current_month = p_month; current_year = p_year %>
+      <%= render :partial => 'show_month_page', :locals => {:month => current_month, :year => current_year} %>
     <% end %>
+
+    <%= render :partial => 'page', :locals => {:page => doc.cover_page} %>
+
+  <% end %>
 <% end %>
 
 <div style="clear:both;"></div>

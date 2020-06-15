@@ -1,12 +1,17 @@
-<div id="keywords">
+<!-- https://lokesh-coder.github.io/pretty-checkbox/ -->
+<div id="keywords" >
     <div class="form-field">
     <% Tag.all.each do |tag| %>
-        <div style="float:left;min-width:70px">
-          <%= check_box_tag("document[keyword_list][]", tag.id, current_keywords.include?(tag.id)) %>  <label><%= tag.name %>  </label>
-        </div>
+
+          <div class="pretty p-default p-curve" style="float:left;min-width:70px;margin-top: 10px;">
+          <%= check_box_tag("document[keyword_list][]", tag.id, current_keywords.include?(tag.id)) %>
+            <div class="state p-warning"> <label><%= tag.name %>  </label></div>
+          </div>
+
     <% end %>
     <div class="clear"></div>
   </div>
 </div>
+
 
 

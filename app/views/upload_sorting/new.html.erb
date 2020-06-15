@@ -56,7 +56,11 @@
               </span>
 
               <span style="margin-left:20px">
-                 Never delete this file: <%= f.check_box(:no_delete, :id => 'cb_no_delete') %>
+                <div class="pretty p-default p-curve" >
+                <%= f.check_box(:no_delete, :id => 'cb_no_delete') %>
+                  <div class="state p-warning"> <label>Never delete this file</label></div>
+            </div>
+
               </span>
             </div>
             </br></br>

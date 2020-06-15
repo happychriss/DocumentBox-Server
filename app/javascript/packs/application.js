@@ -13,6 +13,9 @@ require("jquery")
 // https://www.youtube.com/watch?v=Hz8d6zPDSrk
 import flatpickr from "flatpickr"
 require("flatpickr/dist/flatpickr.css")
+require("flatpickr/dist/themes/confetti.css");
+require("pretty-checkbox/dist/pretty-checkbox.css")
+
 
 document.addEventListener("turbolinks:load", () => {
     flatpickr("[data-behavior='flatpickr']", {

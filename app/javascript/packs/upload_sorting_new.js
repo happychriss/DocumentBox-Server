@@ -2,6 +2,8 @@ require("jquery-ui/ui/widgets/sortable")
 require("jquery-ui/ui/widgets/draggable")
 require("jquery-ui/ui/widgets/droppable")
 require("flatpickr/dist/flatpickr.css")
+require("flatpickr/dist/themes/confetti.css")
+require("pretty-checkbox/dist/pretty-checkbox.css")
 
 Sortable1 = function (){
     $("li","#sortable1").draggable({
