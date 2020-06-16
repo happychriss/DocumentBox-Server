@@ -15,7 +15,7 @@ Convert:<%= status_summary[:convert] %> |
 
 
 <% if Log.check_errors? then %>
-    <span style="background: red"><a href="/status">ERROR</a></span>
+    <span style="background-color: red"><a href="/status">ERROR</a></span>
 <% elsif (not Converter.connected? and not Scanner.connected?) %>
     <span><a href="/status">No Connection</a></span>
 <% elsif not Converter.connected? %>

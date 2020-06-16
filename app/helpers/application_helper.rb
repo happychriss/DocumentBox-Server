@@ -9,7 +9,7 @@ module ApplicationHelper
   end
 
   def show_link_pages_sorted
-    "Scann and Sort Files (#{Page.uploaded_pages.count})"
+    "Scann(#{Page.uploaded_pages.count})"
   end
 
 

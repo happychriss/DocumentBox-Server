@@ -113,7 +113,7 @@ Please check, you should not use "sudo" for any command, only if noted down.
 sudo apt-get update  
 sudo apt-get upgrade
 sudo apt-get install git nginx redis-server postgresql postgresql-client libmysqlclient-dev libpq-dev 
-sudo apt-get install imagemagick poppler-utils unpaper tesseract-ocr tesseract-ocr-deu  sane gnupg2 
+sudo apt-get install imagemagick poppler-utils unpaper tesseract-ocr tesseract-ocr-deu  sane gnupg2 cups cups-client cups-bsd libcups2-dev html2ps
 
 # RVM:Install not from ubuntu repository, mixed version , but from RVM:
 \curl -sSL https://get.rvm.io | bash -s stable --ruby
