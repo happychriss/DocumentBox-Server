@@ -2,11 +2,7 @@ CDSERVER_ROOT="//home/docbox/DBServer"
 CDDAEMON_ROOT="//home/docbox/DBDaemons"
 CDSERVER_PID = "//tmp"
 CDSERVER_LOG= "#{CDSERVER_ROOT}/log"
-NGINX_ROOT="/usr/local/nginx/sbin" #config in /usr/local/nginx/conf/nginx.conf
-THIN_ROOT="/usr/local/bin/thin"
-THIN_CONFIG=File.join(CDSERVER_ROOT,"thin_nginx.yml")
 SUBNET="192.168.1"
-
 
 God.watch do |w|
   w.name          = "sphinx"
@@ -54,20 +50,6 @@ God.watch do |w|
   w.env           = {'RAILS_ENV' => "production" }
   w.pid_file      = "#{CDSERVER_PID}/clockwork.pid"
 end
-
-#God.watch do |w|
-#  w.name          = "unicorn"
-#  w.group         = "docbox"
-#  w.dir           = CDSERVER_ROOT
-#  w.start_grace   = 10.seconds
-#  w.restart_grace = 10.seconds
-#  w.interval      = 60.seconds
-#  w.start         = "bundle exec unicorn -c /home/docbox/DBServer/unicorn.conf.rb"
-#  w.pid_file      = "//tmp/unicorn.pid" 
-#  w.log           = "#{CDSERVER_LOG}/unicorn.log"  
-#  w.stop_signal   = 'QUIT'
-#  w.keepalive
-#end
 
 #avahi daemon to register the converter and scanner
 God.watch do |w|
