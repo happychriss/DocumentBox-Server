@@ -16,8 +16,8 @@ module Clockwork
     BackupDbJob.perform_later
   end
 
-#  every(1.week, 'SphinxIndexWorker.perform_async', :at => '19:30') do
-  every(4.minute, 'SphinxIndexWorker.perform_async', :at => '19:30') do
+  every(1.week, 'SphinxIndexWorker.perform_async', :at => '19:30') do
+#  every(4.minute, 'SphinxIndexWorker.perform_async') do
     SphinxReindexJob.perform_later
   end
 
