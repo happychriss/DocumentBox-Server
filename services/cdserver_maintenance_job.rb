@@ -7,19 +7,7 @@
 
 # require_relative "../config/boot"
 require_relative "../config/environment"
-require "SphinxRakeSupport"
 require "clockwork"
-
-
-class SphinxIndexWorker
-
-  def self.perform
-    Rails.logger.info "### Sphinx - Start Index"
-    SphinxRakeSupport::Schedule.ts_index
-    Rails.logger.info "### Sphinx - Index Completed"
-    Log.write_status("SphinxIndex", "*********** Completed Sphinx-Reindex **************")
-  end
-end
 
 
 module Clockwork
@@ -30,7 +18,7 @@ module Clockwork
 
 #  every(1.week, 'SphinxIndexWorker.perform_async', :at => '19:30') do
   every(4.minute, 'SphinxIndexWorker.perform_async', :at => '19:30') do
-    SphinxIndexWorker.perform
+    SphinxReindexJob.perform_later
   end
 
  # every(1.month, 'RemoveFromArchiveJob.perform_async') do

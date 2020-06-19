@@ -11,7 +11,7 @@ class UploadSortingController < ApplicationController
     @document.created_at = Date.today.strftime("%d.%m.%Y")
 
     respond_to do |format|
-      format.html { @pages = Page.uploaded_pages } # new.html.erb
+      format.html { @pages = Page.uploaded_pages.order(id: :asc) } # new.html.erb
       format.js { @pages = nil } #new from ajax
     end
   end

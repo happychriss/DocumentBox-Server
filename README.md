@@ -186,9 +186,11 @@ from the DBServer folder to the data folder is also set-up.
 
 ```bash
 sudo mkdir //data
-sudo chown docbox //data
 cd //data
 mkdir docstore  #//data/docstore is folder for documents stored locally
+mkdir docstore_db #//data/docstore_db is folder for local database_backup (also uploaded to Amazon)
+cd ..
+sudo chown -R docbox:docbox //data
 cd /home/docbox/DBServer
 ln -s //data/docstore/ docstore
 ```
