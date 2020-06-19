@@ -8,7 +8,7 @@ class BackupDbJob < ActiveJob::Base
   include Pusher
   include ActionView::Helpers::UrlHelper
 
-  DB_BACKUP_FOLDER= File.expand_path("../DBBackup/")
+  DB_BACKUP_FOLDER= "//data/docstore_db"
 
 
   def perform

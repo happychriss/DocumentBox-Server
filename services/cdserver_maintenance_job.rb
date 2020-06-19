@@ -11,31 +11,6 @@ require "SphinxRakeSupport"
 require "clockwork"
 
 
-class DBBackupWorker
-
-  def self.perform
-    Rails.logger.info "### DBBackup - Start "
-#    res=%x[backup perform --trigger=cd2_db_backup --config-file='#{Rails.root}/backup/config.rb']
-    Bundler.with_clean_env do ##https://github.com/meskyanichi/backup/issues/306
-
-      Rails.logger.info "** Environment: #{Rails.env}"
-
-      res=%x[RAILS_ENV=#{Rails.env} backup perform --root-path='#{Rails.root}' --trigger=cd2_db_backup --config-file='./db_backup/config.rb' --log-path='./log' --quiet --data-path='./tmp']
-
-      return_value=$?.exitstatus
-
-      if return_value!=0 then
-        Log.write_status("DB-Backup", "*********** ERROR in Backup ************** with result:#{return_value}")
-        Rails.logger.info "### DBBackup - Stop with Error"
-      else
-        Log.write_status("DB-Backup", "*********** Completed Backup ************** with result:#{return_value}")
-        Rails.logger.info "### DBBackup - Stop "
-      end
-    end
-  end
-end
-
-
 class SphinxIndexWorker
 
   def self.perform
@@ -49,11 +24,12 @@ end
 
 module Clockwork
   every(1.week, 'BackupJob.perform_async', :at => '19:00') do
-#  every(1.minute, 'BackupJob.perform') do
-    DBBackupWorker.perform
+#  every(2.minute, 'BackupJob.perform') do
+    BackupDbJob.perform_later
   end
 
-  every(1.week, 'SphinxIndexWorker.perform_async', :at => '19:30') do
+#  every(1.week, 'SphinxIndexWorker.perform_async', :at => '19:30') do
+  every(4.minute, 'SphinxIndexWorker.perform_async', :at => '19:30') do
     SphinxIndexWorker.perform
   end
 
