@@ -113,7 +113,7 @@ Please check, you should not use "sudo" for any command, only if noted down.
 sudo apt-get update  
 sudo apt-get upgrade
 sudo apt-get install git nginx redis-server postgresql postgresql-client libmysqlclient-dev libpq-dev 
-sudo apt-get install imagemagick poppler-utils unpaper tesseract-ocr tesseract-ocr-deu  sane gnupg2 cups cups-client cups-bsd libcups2-dev html2ps
+sudo apt-get install imagemagick poppler-utils unpaper tesseract-ocr tesseract-ocr-deu  sane gnupg2 cups cups-client cups-bsd libcups2-dev html2ps exactimage 
 
 # RVM:Install not from ubuntu repository, mixed version , but from RVM:
 \curl -sSL https://get.rvm.io | bash -s stable --ruby
@@ -423,3 +423,20 @@ god restart docbox   # will start all services
 god restart scanner  # will restart a single services
 ```
 
+Add GOD to autostart (etc/init.d)
+===============
+Using systemd for autostart and setting up a docbox.service that is using the GOD framework to start during boot.
+```bash
+sudp cp ./SupportFile/docbox.service //etc/systemd/system
+sudo systemctl daemon-reload
+sudo systemctl enable docbox.service
+```
+To check if all running, you can also start god now by typing:
+```bash
+sudo systemctl start docbox
+```
+
+
+rvm alias create docbox ruby-2.7.1@docbox_r6
+
+```

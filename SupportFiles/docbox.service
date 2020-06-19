@@ -1,0 +1,11 @@
+[Unit]
+Description=DocBox Startup Service using GOD daemon process
+
+[Service]
+Type=forking
+ExecStart=/home/docbox/.rvm/wrappers/docbox/god start docbox -c /home/docbox/DBServer/docbox.god.rb -l /home/docbox/DBServer/log/god.log
+ExecStop=/home/docbox/.rvm/wrappers/docbox/god terminate
+User=docbox
+
+[Install]
+WantedBy=multi-user.target

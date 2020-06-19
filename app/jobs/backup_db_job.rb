@@ -67,6 +67,4 @@ def shell_exec(step,command)
       raise "Shell-Exec - error on "+step+":"+ err_txt
     end
   end
-
-
 end
