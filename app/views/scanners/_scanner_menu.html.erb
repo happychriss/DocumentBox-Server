@@ -5,7 +5,16 @@
     <div style="float: left;width: 45%;">
       <%= submit_tag("Scann", :id => :scann_button) %>
       <%= select_tag(:scanner_name, options_for_select(@scanner_device_list), {:include_blank => false}) %>
-      Color: <%= check_box_tag(:color, '1',true) %>
+
+
+      <div class="pretty p-switch" style="padding-left: 20px" >
+        <%= check_box_tag(:color, '1',true) %>
+        <div class="state p-warning"> <label>Color</label></div>
+      </div>
+
+
+
+
     </div>
 
     <div style="display:inline-block;width: 40%;margin-top: 7px;">

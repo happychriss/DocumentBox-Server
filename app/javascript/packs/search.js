@@ -17,12 +17,15 @@ DropPages = function () {
     $(".search_droppable").droppable({
         accept: ".search_draggable",
         drop: function( event, ui ) {
-
             var drop_id=this.id;
             var drag_id=ui.draggable.attr("id");
 
             var parameters = 'drop_id='+drop_id+"&"+'drag_id='+drag_id;
-            $.post("add_page", parameters);
+            $.post("add_page", parameters,  function(data, status)
+            {
+                console.log(status);
+            });
+
 
         }
 

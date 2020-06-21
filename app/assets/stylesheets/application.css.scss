@@ -16,6 +16,16 @@
 
 /* Generall Setting */
 
+.top_search_button {
+    background-color: orange;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    width: 100px;
+}
+
 body {
     background: url(asset-path("debut_dark.png")) repeat fixed;
     font-family: Arial, sans-serif;

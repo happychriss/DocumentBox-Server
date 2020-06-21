@@ -35,6 +35,7 @@ end
 
     @drag_page.add_to_document(@drop_page.document)
     @drop_page.reload
+    return "404"
   end
 
   ### Show document PDF and RTF
