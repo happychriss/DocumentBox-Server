@@ -316,6 +316,17 @@ rake ts:rebuild
 rake ts:index
 ```
 
+Configure ImageMagick
+===============
+We are using convert to create jpg from PDF, here in the past where some security issues. We need to allow convert to 
+do this by updating: 
+```bash
+//etc/ImageMagick-6
+Change line from "none" to "read|write"
+ <policy domain="coder" rights="read|write" pattern="PDF" />
+```
+
+
 Install DocumentBox Daemons
 ===========================
 

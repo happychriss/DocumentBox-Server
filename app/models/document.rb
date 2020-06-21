@@ -44,11 +44,18 @@ class Document < ActiveRecord::Base
     self.pages.where(position: 0).first
   end
 
+
   def pdf_file
-    docs='';self.pages.each  {|p| docs+=' '+p.pdf_path}
-    pdf=Tempfile.new(["cd_#{self.id}",".pdf"])
-    java_merge_pdf="java -classpath './java_itext/.:./java_itext/itext-5.3.5/*' MergePDF"
-    res=%x[#{java_merge_pdf} #{docs} #{pdf.path}]
+
+    docs = ''; self.pages.each { |p| docs += ' ' + p.pdf_path }
+    pdf = Tempfile.new(["cd_#{self.id}", ".pdf"])
+
+    #  if pdftk is not available for OS, you can use java_itext instead
+    #  java_merge_pdf = "java -classpath './SupportFiles/java_itext/.:./java_itext/itext-5.3.5/*' MergePDF"   # java itext
+
+    java_merge_pdf = "pdftk #{docs} cat output #{pdf.path}"
+    Rails.logger.info  "PDF_FILE, merging PDF with pdftk and command: #{java_merge_pdf}"
+    res = %x[#{java_merge_pdf}]
     return pdf
   end
 
