@@ -3,6 +3,7 @@ require 'Pusher'
 class ConnectorsController < ApplicationController
   include Pusher
   skip_before_action :verify_authenticity_token
+  before_action :accept_all_params
 
 
 #  skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }

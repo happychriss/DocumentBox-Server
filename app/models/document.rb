@@ -45,10 +45,10 @@ class Document < ActiveRecord::Base
   end
 
   def pdf_file
-    docs = ''; self.pages.each { |p| docs += ' ' + p.pdf_path }
-    pdf = Tempfile.new(["cd_#{self.id}", ".pdf"])
-    java_merge_pdf = "java -classpath './SupportFiles/java_itext/.:./java_itext/itext-5.3.5/*' MergePDF"
-    res = %x[#{java_merge_pdf} #{docs} #{pdf.path}]
+    docs='';self.pages.each  {|p| docs+=' '+p.pdf_path}
+    pdf=Tempfile.new(["cd_#{self.id}",".pdf"])
+    java_merge_pdf="java -classpath './java_itext/.:./java_itext/itext-5.3.5/*' MergePDF"
+    res=%x[#{java_merge_pdf} #{docs} #{pdf.path}]
     return pdf
   end
 

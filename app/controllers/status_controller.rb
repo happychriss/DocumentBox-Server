@@ -41,7 +41,7 @@ class StatusController < ApplicationController
   end
 
   def get_docbox_status
-    status_summary = Page.count(:group => :status)
+    status_summary = Page.group(:status).count
     error = ""
     if Log.check_errors?
       error = "!!! ERROR !!!   "

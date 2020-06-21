@@ -8,8 +8,14 @@ class TouchSwitch
 
   def self.connect(connection_uri)
     Rails.logger.info  "**** Daemon - Request: Create/Find connection for *Touchswitch* and uri:#{connection_uri}"
-    connection = Connector.find_or_initialize_by_uid(connection_uri[:uid])
-    connection.update_attributes(connection_uri)
+    connection = Connector.where(uid: connection_uri[:uid]).first
+    
+    if connection.nil?
+	    connection = Connector.new(connection_uri)
+    else
+            connection.update_attributes(connection_uri)
+    end
+
     connection.save!
   end
 
