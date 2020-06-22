@@ -35,40 +35,50 @@ Wifi network to assure your data privacy. This mobile app is not part of this re
 Technical Overview
 ==================
 
-DocumentBox is running as a Linux RoR Web Service on the Pi 3. All
+DocumentBox can run on everything, a small PI or a home-server with OCR. All
 documents are indexed in a DB and stored locally (e.g. on SD card) .
-Also OCR and image processing needs some computer power, the PI 3 is
-able to process the data. But the design also allows to “outsource” this
-action to any PC via a daemon program (communicating with the PI). An
-optional configurable hardware depending component allows to control the
-scanner and some LEDs for the print process.
+When running on small devices (PI) - OCR is hard work - but the design also allows to “outsource” this
+action to any PC via a daemon program . An optional configurable hardware depending component allows to control the
+scanner and even LEDs for the print process.
 
 Installation
 ============
 
-
-The below instruction is tested for the following image: 
-
-It is strongly recommend to use this image when following below installation.
-
-
 Content
-            
-   * [General Installation](#installation)
-      * [Prepare the PI](#prepare-the-pi)
-      * [Install general SW Packages](#install-general-sw-packages)   
+  <!--ts-->          
+   * [Prepare](#prepare)
+      * [Fixed IP Address](#fixed-ip-address)
+      * [Setup the user ‘docbox’](#setup-the-user-docbox)
+   * [Install SW](#install-sw)
+      * [Standard Ubuntu Packages](#standard-ubuntu-packages)
+      * [PhusionPassenger](#phusionpassenger)
    * [Install DocumentBox Server](#install-documentbox-server)
-   * [Setup MySQL Database](#setup-mysql-database)
-   * [Configure Backup on Amazon S3](#configure-backup-on-amazon-s3)    
-   * [Configure nginx](#configure-nginx)
-   * [Install DocumentBox Daemons](#install-documentbox-daemons)      
-   * [Configure Scanner](#configure-scanner)
+      * [Download Source-code](#download-source-code)
+      * [Configuration](#configuration)
+         * [Subnet](#subnet)
+         * [Folder Structure](#folder-structure)
+         * [Credentials for DB and S3](#credentials-for-db-and-s3)
+         * [Postgres Database](#postgres-database)
+   * [Backup and Encryption on Amazon S3](#backup-and-encryption-on-amazon-s3)
+      * [SetUp Amazon S3 Bucket](#setup-amazon-s3-bucket)
+      * [Configure gpg encryption](#configure-gpg-encryption)
+   * [Additional components](#additional-components)
+      * [Nginx &amp; PhusionPassenger](#nginx--phusionpassenger)
+      * [Sphinx](#sphinx)
+      * [ImageMagick](#imagemagick)
+   * [Install DocumentBox Daemons](#install-documentbox-daemons)
+      * [Download Software from GitHub](#download-software-from-github)
+      * [<strong>Configure Scanner</strong>](#configure-scanner)
+         * [Instruction for S1300](#instruction-for-s1300)
    * [Run DocumentBox](#run-documentbox)
+      * [Add GOD to autostart (etc/init.d)](#add-god-to-autostart-etcinitd)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+<!--te-->
 
-Prepare the PI
---------------
+Prepare 
+===============
+
 ### Fixed IP Address 
 
 You will need to configure the DocBox Server  with a fixed IP address, to make it
@@ -95,16 +105,21 @@ sudo adduser docbox
 sudo adduser docbox sudo
 ```
 
-Little tip, when using ssh to connect to , run 
+**Logout and login with the new docbox user.**
+
+Please check, you should not use "sudo" for any command, only if noted down.
+
+Little tip, when using ssh to connect to , run to directly connect to the server without repeating password and passphrase: 
 ```bash
 ssh-copy-id docbox@your server
 ```
-to directly connect to the server without repeating password and passphrase.
 
-Install SW
+
+Install SW 
+======================
+
+Standard Ubuntu Packages
 ---------------------------
-Logout and login with the new docbox user.
-Please check, you should not use "sudo" for any command, only if noted down.
 
 ```bash
 # Ruby, NodeJS and Yarn via Package Managers (rvm,nvm,yarn)
@@ -113,7 +128,7 @@ Please check, you should not use "sudo" for any command, only if noted down.
 sudo apt-get update  
 sudo apt-get upgrade
 sudo apt-get install git nginx redis-server postgresql postgresql-client libmysqlclient-dev libpq-dev 
-sudo apt-get install imagemagick poppler-utils unpaper tesseract-ocr tesseract-ocr-deu  sane gnupg2 cups cups-client cups-bsd libcups2-dev html2ps exactimage 
+sudo apt-get install imagemagick poppler-utils unpaper tesseract-ocr tesseract-ocr-deu  sane gnupg2 cups cups-client cups-bsd libcups2-dev html2ps exactimage pdftk 
 
 # RVM:Install not from ubuntu repository, mixed version , but from RVM:
 \curl -sSL https://get.rvm.io | bash -s stable --ruby
@@ -127,15 +142,32 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
 rvm install "ruby-2.7.1"
 nvm install 12.16.3
 
-# install java version????
-sudo apt-get install oracle-java8-jdk????
+```
+PhusionPassenger
+--------------------------- 
+PhusionPassenger is used as ApplicatoinServer together with Nginx, configuration below, installation:
+```bash
+# Install our PGP key and add HTTPS support for APT
+sudo apt-get install -y dirmngr gnupg
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7
+sudo apt-get install -y apt-transport-https ca-certificates
+
+# Add our APT repository
+sudo sh -c 'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger focal main > /etc/apt/sources.list.d/passenger.list'
+sudo apt-get update
+
+# Install Passenger + Nginx module
+sudo apt-get install -y libnginx-mod-http-passenger
+
+# enable the Passenger Nginx module and restart Nginx
+if [ ! -f /etc/nginx/modules-enabled/50-mod-http-passenger.conf ]; then sudo ln -s /usr/share/nginx/modules-available/mod-http-passenger.load /etc/nginx/modules-enabled/50-mod-http-passenger.conf ; fi
+sudo ls /etc/nginx/conf.d/mod-http-passenger.conf
 
 ```
 
-Overview
-========
 Install DocumentBox Server
 ==========================
+
 Download Source-code
 --------------------
 
@@ -165,9 +197,10 @@ bundle update --bundler
 bundle install
 ```
 
-Configure Subnet
-----------------
+ Configuration
+--------------------
 
+###  Subnet
 This is only needed when the IP address of the Pi does not start with
 192.168.1.\*
 
@@ -178,8 +211,7 @@ File: /home/docbox/DBServer/docbox.god.rb
 SUBNET = “192.168.1”
 ```
 
-### Create Root folder for mass data storage
-
+### Folder Structure
 All scanned files are stored in the file system as PDF and preview
 images. This folder can be also located on an connected SD card . A link
 from the DBServer folder to the data folder is also set-up.
@@ -195,11 +227,11 @@ cd /home/docbox/DBServer
 ln -s //data/docstore/ docstore
 ```
 
-Configure Credentials for DB and S3  using Rails Secret and MasterKey
-=====================
-Example credential file is provide in /config/credentials.example.yml.
+### Credentials for DB and S3  
+DocBox is using Rails Secret and MasterKey approach. 
 To secure this data on your server, the file is protected with a secret that you *must* never share or upload to github.
 In this project the file is added to .gitignore.
+Example credential file is provide in /config/credentials.example.yml.
 You will need to create S3 storage and buckets for the documents uploaded and for a regular database backup. In addition
 you will use the PGP email address to keep your private pgp key configured.
 That file will be referred as 'credential-file' in the below sections.
@@ -233,9 +265,7 @@ production:
 
 
 
-Setup Postgres Database 
-=====================
-
+#### Postgres Database 
 Ruby on Rails provides support to set-up and create a database. You will
 need user-name and password as selected when installing Postgres and update
 it in the file database.yml . For setting- up initial Postgres user, follow the standard instructions.
@@ -261,7 +291,7 @@ Comnpile the static assets
 rake assets:precompile
 ```
 
-Configure Backup on Amazon S3
+Backup and Encryption on Amazon S3
 =============================
 
 DocumentBox is configured to use Amazon S3 Service for the backup of
@@ -279,9 +309,8 @@ production.docbox.com
 production.docbox.db.com
 ```
 
-
-### Configure gpg encryption for file-upload and backup
-
+Configure gpg encryption 
+---------------------
 All data uploaded to Amazon S3 will be encrypted using GPG Linux. Follow instructions by the program and accept the default values.
 ```bash
 gpg --gen-key
@@ -294,11 +323,18 @@ downloading it from Amazon S3, the key is stored in the following folder
 ```
 The email address used for the key needs to be updated in the credentials-file  
 
-Configure nginx
+Additional components
 ===============
 
-DocumentBox is using “thin” as Rails WebServer and Nginx as application
-server and for assest management.
+Nginx & PhusionPassenger
+----------------------
+
+#### Background
+DocBox is using Nginx as WebServer and Passenger as ApplicationServer, static assets (images, javascript) are precompiled and served by Nginx.
+Passenger offers different installation options, I am using the standard nginx package and a passenger-module in an RVM environment that is added to nginx.
+A full overview of the deployment is available here: https://www.phusionpassenger.com/docs/tutorials/deploy_to_production/deploying_your_app/oss/ownserver/ruby/nginx/
+If keep the proposed set-up, no addition configuration needs to be done, only to copy the nginx.conf file.
+
 
 ```bash
 cd DBServer
@@ -306,8 +342,8 @@ sudo mv //etc/nginx/nginx.conf //etc/nginx/nginx.conf.bak
 sudo mv nginx.conf //etc/nginx/nginx.conf
 ```
 
-Configure Sphinx
-===============
+Sphinx
+----------------------
 Sphinx is the search engine that creates an index and speeds it up when searching the documents.
 
 ```bash
@@ -316,8 +352,8 @@ rake ts:rebuild
 rake ts:index
 ```
 
-Configure ImageMagick
-===============
+ ImageMagick
+----------------------
 We are using convert to create jpg from PDF, here in the past where some security issues. We need to allow convert to 
 do this by updating: 
 ```bash
@@ -437,10 +473,10 @@ god restart scanner  # will restart a single services
 ```
 
 Add GOD to autostart (etc/init.d)
-===============
+-----------------------------
 Using systemd for autostart and setting up a docbox.service that is using the GOD framework to start during boot.
 ```bash
-sudp cp ./SupportFile/docbox.service //etc/systemd/system
+sudp cp ./docbox.service //etc/systemd/system
 sudo systemctl daemon-reload
 sudo systemctl enable docbox.service
 ```

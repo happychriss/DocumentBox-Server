@@ -41,12 +41,12 @@ class StatusController < ApplicationController
   end
 
   def get_docbox_status
-    status_summary = Page.group(:status).count
+    status_summary = Page.status_hash
     error = ""
     if Log.check_errors?
       error = "!!! ERROR !!!   "
     end
-    message = error + "U:#{status_summary[Page::UPLOADED].presence || '0'} Cv:#{status_summary[Page::UPLOADED_PROCESSING].presence || '0'} OCR:#{pending_ocr = Page.uploading_status(:no_ocr)} S3:#{Page.uploading_status(:no_backup)}"
+    message = error + "U:#{status_summary[:upload]} Cv:#{status_summary[:convert]} OCR:#{status_summary[:pending_ocr]} S3:#{status_summary[:pending_backup]}"
     render :json => message
   end
 

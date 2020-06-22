@@ -24,7 +24,7 @@ class TouchSwitch
   def self.send_status(message, scan_complete = false)
 
 
-    if scan_complete and (message.include? "Feeder" or message.include? "Warning" or message.include? "Error")
+    if scan_complete and (message.include? "Feeder" or message.include? "Warning" or message.include? "Error" or message.include? "SIMULAT")
 #    if (true)
 
       tw = Connector.find_by service: TouchSwitch.service_name
