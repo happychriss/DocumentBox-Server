@@ -44,9 +44,9 @@ class StatusController < ApplicationController
     status_summary = Page.status_hash
     error = ""
     if Log.check_errors?
-      error = "!!! ERROR !!!   "
+      error = "ERR:"
     end
-    message = error + "U:#{status_summary[:upload]} Cv:#{status_summary[:convert]} OCR:#{status_summary[:pending_ocr]} S3:#{status_summary[:pending_backup]}"
+    message = error + "Up:#{status_summary[:upload]} Cv:#{status_summary[:convert]} OCR:#{status_summary[:pending_ocr]} S3:#{status_summary[:pending_backup]}"
     render :json => message
   end
 
