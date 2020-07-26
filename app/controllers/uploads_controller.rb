@@ -17,14 +17,14 @@ class UploadsController < ApplicationController
       @message = params[:message]
       @scan_complete = (params[:scan_complete] == 'true')
       TouchSwitch.send_status(@message, @scan_complete)
-      push_scanner_update(@message,nil,@scan_complete)
+      push_upload_update('Scanner',@message,nil,@scan_complete)
       head :ok
     end
 
     ### called from converter, this will trigger the Pusher in view
     def convert_status
       @message=params[:message]
-      push_converter_update(@message)
+      push_upload_update('Converter',@message)
       head :ok
     end
 
@@ -58,7 +58,7 @@ class UploadsController < ApplicationController
       Hardware.blink_ok_status_led
 
       ## this triggers the pusher to update the page with new uploaded data
-      push_scanner_update("New Scanner File",@page)
+      push_upload_update('Scanner',"New Scanner File",@page)
 
       head :ok
 
@@ -134,7 +134,7 @@ class UploadsController < ApplicationController
       page.save_file(params[:page][:result_jpg], :jpg)
       page.save_file(params[:page][:result_sjpg], :s_jpg)
 
-      push_converter_update("Preview converted",page)
+      push_upload_update('Converter',"Preview converted", page)
 
       head :ok
 
@@ -160,7 +160,7 @@ class UploadsController < ApplicationController
       page.save!
 
        ## send status-update to application
-      push_converter_update("Converted",page)
+      push_upload_update('Converter',"Converted", page)
 
       head :ok
 

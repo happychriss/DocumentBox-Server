@@ -1,7 +1,6 @@
 module SearchHelper
   def search_class(page)
-    result="preview search_droppable"
-    result=result+" search_draggable" if (page.document_pages_count==1  and (not page.document.no_delete?))
+    result="preview"
     result=result+" new_document" if page.document.status==Document::DOCUMENT_FROM_PAGE_REMOVED
     result=result+" no_delete" if page.document.no_delete?
     result=result+" more_pages" if page.document_pages_count>1

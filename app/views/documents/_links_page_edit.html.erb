@@ -12,10 +12,9 @@
 
 
 
-<div style="float:right;">
-<%= ( link_to "Delete", {:controller => 'documents', :id=>page.id,:action=>'destroy_page'},
-                        {:remote => (page.document_pages_count!=1), :confirm => 'Are you sure?'}) unless page.document.no_delete? %>
-<%= (link_to "Remove", {:controller => 'documents', :id=>page.id,:action=>'remove_page'}, {:remote => true}) if page.document_pages_count>1 %>
+<div style="float:right;" >
+<%=  link_to "Delete",nil, class:'delete_link action_link', id:page.id unless page.document.no_delete? %>
+<%= link_to "Remove",nil, class:'remove_link action_link',id:page.id if page.document_pages_count>1 %>
 
 </div>
 

@@ -1,3 +1,7 @@
-<div class='<%= search_class(page) %>' id='<%= 'page_'+page.id.to_s %>'>
-  <%= render :partial => 'links_page_search', :layout => '/show_page', :locals => {:page => page} %>
+<% sd = '' %>
+<% sd = "search_draggable" if (page.document_pages_count == 1 and (not page.document.no_delete?)) %>
+<div class= '<%= "search_droppable #{sd}"%>' id='<%= page.id.to_s %>'>
+    <div class='<%= search_class(page) %>' id='<%= 'page_' + page.id.to_s %>'>
+    <%= render :partial => 'links_page_search', :layout => '/show_page', :locals => {:page => page} %>
+  </div>
 </div>

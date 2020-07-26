@@ -1,7 +1,10 @@
-<li class='preview group'  id=<%= 'page_'+page.id.to_s %>>
+<div class='uploaded' draggable="true" id=<%=page.id.to_s %>>
+<li class='preview group'  id=<%= 'page_'+page.id.to_s %> >
    <%= image_tag "completed.png",style: "position:absolute;visibility:#{page.status==Page::UPLOADED_PROCESSED ? 'visible' : 'hidden'}", :id=>"completed_ind_#{page.id.to_s}" %>
    <%= image_tag "big_spinner.gif",style: "position:absolute;visibility:#{(page.status==Page::UPLOADED_PROCESSING) ? 'visible' : 'hidden'}", :id=>"process_ind_#{page.id.to_s}" %>
    <%= image_tag "attention.png",style: "position:absolute;visibility:#{page.status==Page::UPLOADED ? 'visible' : 'hidden'}", :id=>"attention_ind_#{page.id.to_s}" %>
 
   <%= render :partial => 'uploads/links_page_uploaded', :layout => '/show_page', :locals => {:page => page} %>
+  <input type='hidden' name='page[]' value=<%= page.id %>/>
 </li>
+</div>

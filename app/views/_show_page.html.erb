@@ -1,21 +1,25 @@
 <!-- Standard Template to show pages - with yield -->
 <!-- http://railsonedge.blogspot.de/2008/04/dry-up-your-views-with-layouts-for-your.html-->
 
-<% if page.status == Page::UPLOADED_PROCESSING then %>
-    <%= image_tag('upload_no_spinner.gif', :id => page.id, :bigjpg => page.short_path(:jpg),:class => 'no_clickzoom', :preview_path=>page.short_path(:s_jpg)) %>
+<% if page.status == Page::UPLOADED_PROCESSING  %>
+  <% if not page.preview? %>
+    <%= image_tag('upload_no_spinner.gif',  :bigjpg => page.short_path(:jpg),:class => 'no_clickzoom', :draggable=>"false", :preview_path=>page.short_path(:s_jpg)) %>
+  <% else%>
+    <%= image_tag(page.short_path(:s_jpg),  :bigjpg => page.short_path(:jpg),:class => 'no_clickzoom', :draggable=>"false", :preview_path=>page.short_path(:s_jpg)) %>
+  <%end%>
 <% elsif not page.preview? %>
-    <%= image_tag('no_preview.jpg', :id => page.id, :bigjpg => page.short_path(:jpg),:class => 'no_clickzoom', :preview_path=>page.short_path(:s_jpg)) %>
+    <%= image_tag('no_preview.jpg',          :bigjpg => page.short_path(:jpg),:class => 'no_clickzoom', :draggable=>"false", :preview_path=>page.short_path(:s_jpg)) %>
 <% elsif page.status == Page::UPLOADED_PROCESSED %>
-    <%= image_tag(page.short_path(:s_jpg), :id => page.id, :bigjpg => page.short_path(:jpg), :class => 'clickzoom') %>
+    <%= image_tag(page.short_path(:s_jpg),  :bigjpg => page.short_path(:jpg), :class => 'clickzoom',:draggable=>"false") %>
 <% else%>
-    <%= image_tag(page.short_path(:s_jpg), :id => page.id, :bigjpg => page.short_path(:jpg),:class => 'no_clickzoom', :preview_path=>page.short_path(:s_jpg)) %>
+    <%= image_tag(page.short_path(:s_jpg),  :bigjpg => page.short_path(:jpg),:class => 'no_clickzoom', :draggable=>"false", :preview_path=>page.short_path(:s_jpg)) %>
 <%end%>
 
 
 
 <div class="clear"></div>
 
-<div class="preview_footer">
+<div class="preview_footer prevent_drag">
 
   <% if page.has_document? %>
       <%= "#{page.position+1}/#{page.document_pages_count}" %> |

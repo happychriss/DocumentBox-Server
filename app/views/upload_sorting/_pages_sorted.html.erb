@@ -11,6 +11,7 @@
             <div class="clear"></div>
             <%= (link_to "Delete", page, :remote => true, :confirm => 'Are you sure?', :method => :delete) if p==1 %>
           </div>
+          <input type='hidden' name='pages[]' value=<%= page.id %>/>
         </li>
 
     <% end %>

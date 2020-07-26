@@ -3,19 +3,22 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 
-
 require("@rails/ujs").start()
 require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
-require("jquery")
+import $ from 'jquery';
+
+global.$ = $
+global.jQuery = $
+require("jquery-ui")
 
 // https://www.youtube.com/watch?v=Hz8d6zPDSrk
 import flatpickr from "flatpickr"
+
 require("flatpickr/dist/flatpickr.css")
 require("flatpickr/dist/themes/confetti.css");
 require("pretty-checkbox/dist/pretty-checkbox.css")
-
 
 document.addEventListener("turbolinks:load", () => {
     flatpickr("[data-behavior='flatpickr']", {
@@ -25,9 +28,6 @@ document.addEventListener("turbolinks:load", () => {
 
     })
 })
-
-window.jQuery = $;
-window.$ = $;
 
 
 // Uncomment to copy all static images under ../images to the output folder and reference

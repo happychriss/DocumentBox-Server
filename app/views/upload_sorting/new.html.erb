@@ -6,21 +6,20 @@
 
 <div class="document_frame">
 
-  <!--------------------------------------- list new uploaded pages -->
-  <ul class="document_page_index" id="sortable1">
-
-        <span id='scan_menu'>
+          <div id='scan_menu' style="margin-left: 15px">
           <%= link_to 'Check Scanner', {:controller => 'scanners', :action => "scan_info", :remote => true}, {:style => 'font-size:18px', :id => 'scan_menu_link'} %>
-          <%= image_tag('small_spinner.gif', :style => 'display:none', :id => 'scan_menu_spinner') %>
-        </span>
+            <%= image_tag('small_spinner.gif', :style => 'display:none', :id => 'scan_menu_spinner') %>
+        </div>
 
-    <div style="clear:both;"></div>
+
+  <!--------------------------------------- list new uploaded pages -->
+  <ul class="document_page_index" id="sortable1" >
 
     <% unless @pages.nil? then %>
         <% @pages.each do |page| %>
             <%= render :partial => 'uploads/page_uploaded', :locals => {:page => page} %>
         <% end %>
-        <div style="clear:both;"></div>
+
     <% end %>
 
   </ul>

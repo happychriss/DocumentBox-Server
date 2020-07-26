@@ -4,12 +4,14 @@
 <%= javascript_pack_tag "touch-punch" %>
 
 
-
 <% title "Adjust page order with drag and drop" %>
+<div style="padding-left: 10px; font-size: large">
+  <%= link_to("View full PDF Document", pdf_document_path(@document)) if  @document.complete_pdf?  %>
+</div>
 
-<%= form_for(@document, :html => {:class => "input_area"}) do |f| %>
+<%= form_for(@document ) do |f| %>
 
-    <p>
+<div class="input_area" style='display:block;'>
       Comment:  <%= f.text_field :comment %>
 
       <span style="margin-left: 20px"> Created:  <%= f.text_field "created_at", :value => @document.created_at.to_s, data: { behavior: "flatpickr" }, size: 8 %></span>
@@ -34,24 +36,20 @@
 
 
     <%= render :partial => '/keywords', :locals => {:current_keywords => @document.keyword_ids} %>
+</div>
 
+    <div style='float: left;width: 100%'>
+    <%= render :partial => 'pages_edit', :locals => {:document => @document} %>
+    </div>
 
-    <div style="clear:both;"></div>
-    </br>
+  <div style='float: left;width: 100%;' class="input_area">
 
-
-    <%= (link_to "<<< Back", session[:search_results]+"#page_#{@document.pages.first.id}") unless session[:search_results].nil? %>
-
+    <%= f.submit "Cancel" , :id => "id_upload_btn", :name => "name_upl"%>
     <%= f.submit "Update" %>
+  </div>
 <% end %>
 
-<div style="padding-left: 10px; font-size: large">
-<%= link_to("View full PDF Document", pdf_document_path(@document)) if  @document.complete_pdf?  %>
-</div>
 
-<div style="padding-top: 10px">
-  <%= render :partial => 'pages_edit', :locals => {:document => @document} %>
-</div>
 
 
 
