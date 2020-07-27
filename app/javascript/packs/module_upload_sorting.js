@@ -28,7 +28,11 @@ function align_pages() {
     });
 
 }
+
+
+
 export function UploadSorting() {
+
     console.log("I am in UploadSorting")
 
     let source = document.getElementById("sortable1");
@@ -40,50 +44,79 @@ export function UploadSorting() {
     });
 
     var dragUpload = null;
+    var sort_org_x_position=null;
 
     $(".uploaded").each(function (index) {
+        // THIS is LI
         $(this).on("dragstart", function (e) {
-            console.log("Event-Dragable");
 //            $(this).find('.clickzoom').addClass("no_clickzoom"); //prevent event propagation, so clickzoom will not be triggerd
             dragUpload = e.target;
+            $(this).addClass("dragstop")
+            $(this).fadeTo("fast",0)
         });
     });
 
+    target.ondragstart = function (e) {
+        sort_org_x_position=e.clientX
+        console.log(sort_org_x_position)
+    }
+
+    // this is the UL (target)
     target.ondrop = function (e) {
+        e.preventDefault()
         if (dragUpload != null) {
-            console.log("Drop into Sorting")
+            console.log("Drop into Target-Sorting")
             var a = document.getElementById(dragUpload.id)
             if (a.classList.contains("uploaded")) {
                 console.log("Coming fresh from Upload")
-
                 a.classList.add("sorting")
                 a.classList.remove("uploaded")
-                a.firstElementChild.classList.add("page_sort")
+                a.classList.add("page_sort")
                 target.appendChild(a)
-            } else {
-                target.prepend(a)
-            }
 
-            e.preventDefault()
+            // Pages are reorderd in the target list
+            } else {
+                console.log("target:"+e.clientX.toString())
+
+                if (e.clientX>sort_org_x_position) {
+                    console.log("append")
+                    target.append(a)
+                } else {
+                    console.log("prepend")
+                    target.prepend(a)
+                }
+            }
+            a.classList.remove("dragstop")
             align_pages()
         }
     }
 
     source.ondrop = function (e) {
+        e.preventDefault()
         if (dragUpload != null) {
             console.log("Drop back to upload")
             let a = document.getElementById(dragUpload.id)
-            a.classList.remove("sorting")
-            a.classList.add("uploaded")
+            if (a.classList.contains("sorting")) {
 
-            let li_element=a.firstElementChild
-            li_element.classList.remove("page_sort")
-            li_element.removeAttribute("style")
-            li_element.css("z-index", 'auto')
+                a.classList.remove("sorting")
+                a.classList.remove("page_sort")
+                a.classList.remove("drag_stop")
+                a.classList.add("uploaded")
+                a.removeAttribute("style")
+                a.style.zIndex = 'auto'
 
-            source.appendChild(a)
-            e.preventDefault()
-            align_pages()
+                source.appendChild(a)
+
+                align_pages()
+            }
+        }
+    }
+
+    source.ondragend = function (e) {
+        if (dragUpload != null && dragUpload != this) {
+            let a = document.getElementById(dragUpload.id)
+            $(a).fadeTo("fast",1)
+            a.classList.remove("dragstop")
         }
     }
 
@@ -96,26 +129,12 @@ export function UploadSorting() {
     }
 
     target.ondragover = function (e) {
-        console.log("Dragover")
+        console.log("Dragover-Target")
         if (dragUpload != null && dragUpload != this) {
             e.preventDefault();
         }
     }
 
-    target.ondragleave = function (e) {
-        console.log("Dragleave")
-        if (dragUpload != null && dragUpload != this) {
-            e.preventDefault();
-        }
-    }
-
-    target.ondragend = function (e) {
-        console.log("Dragend")
-        if (dragUpload != null) {
-            dragUpload = null
-        }
-        e.preventDefault();
-    }
 
 
-};
+}
