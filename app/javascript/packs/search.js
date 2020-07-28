@@ -15,7 +15,7 @@ DropPages = function () {
             console.log("Event-Dragable");
             $(this).find('.clickzoom').addClass("no_clickzoom"); //prevent event propagation, so clickzoom will not be triggerd
             dragSrcEl = e.target;
-            dragSrcEl.style.opacity = '0.4';
+            $(dragSrcEl).fadeTo('medium',0.2)
         });
     });
 
@@ -54,7 +54,7 @@ DropPages = function () {
 
         $(this).on("dragend", function (e) {
             e.preventDefault();
-            e.target.style.opacity = '1';
+            $(dragSrcEl).fadeTo('medium',1)
         })
     });
 

@@ -48,7 +48,7 @@
           <%= render :partial => '/keywords', :locals => {:current_keywords => @document.keyword_ids} %>
 
 
-          <div class="form-inline line_break" style="margin-top: 10px">
+          <div class="form-inline" style="margin-top: 10px">
 
             <label style="margin-left:10px">
               <%= f.label :delete_at, 'Delete after years' %>
@@ -69,10 +69,10 @@
 
           </div>
 
-          </br></br>
+          <div class="line_break_single"></div>
           <!------- check Javascripts, upload_search_sorting --->
           <%= f.submit "Upload", :id => "id_upload_btn", :name => "name_upl" %>
-          <%= f.submit "PDF", :id => "id_pdf_btn", :name => "name_pdf" %>
+          <%= f.submit "PDF Download", :id => "id_pdf_btn", :name => "name_pdf" %>
         </div>
 
         <h1>Drop pages here to sort for upload</h1>

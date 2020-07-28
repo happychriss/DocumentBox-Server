@@ -163,8 +163,22 @@ input {
   border-bottom-width: 1px;
   border-left-width: 0px;
   border-right-width: 0px;
-  border-color: grey;
+  border-color: lightgrey;
 }
+
+
+.line_break_single {
+  border-style: solid;
+  margin-top: 10px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  border-top-width: 1px;
+  border-bottom-width: 0px;
+  border-left-width: 0px;
+  border-right-width: 0px;
+  border-color: lightgrey;;
+}
+
 
 #keywords {
   padding-left: 10px;

@@ -1,11 +1,11 @@
 
 // Deletes pages (after deleting from controller,checking first if in index or sort page. sends update trigger to sortable
-console.log("I am before");
+console.log("I am before destroy page");
 
-$("#page_<%=@page.id%>").fadeOut('slow', function () {
-console.log("I am in");
+$("#<%=@page.id%>").fadeOut('slow', function () {
+console.log("I am in destroy_page fade-out");
 
-    var page = $("#page_<%=@page.id%>");
+    var page = $("#<%=@page.id%>");
 
     var b_in_sort_frame = false;
 

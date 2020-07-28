@@ -33,8 +33,6 @@ function align_pages() {
 
 export function UploadSorting() {
 
-    console.log("I am in UploadSorting")
-
     let source = document.getElementById("sortable1");
     let target = document.getElementById("sortable2");
 
@@ -113,6 +111,7 @@ export function UploadSorting() {
     }
 
     source.ondragend = function (e) {
+
         if (dragUpload != null && dragUpload != this) {
             let a = document.getElementById(dragUpload.id)
             $(a).fadeTo("fast",1)
