@@ -17,6 +17,7 @@ class DocumentsController < ApplicationController
     # check for cancel first
 
     @document = Document.find(params[:id])
+    last_page = false
 
     if params[:name_upl].nil?
 
@@ -32,11 +33,11 @@ class DocumentsController < ApplicationController
           page = Page.find(page_id)
           page.position = position
           page.save!
-        end
+        end unless params[:order_pages].nil?
 
         # Delete pages
         params[:delete_pages].each do |page_id|
-          Page.find(page_id).destroy_with_file
+          last_page = Page.find(page_id).destroy_with_file
         end unless params[:delete_pages].nil?
 
         # Remove pages
@@ -47,10 +48,12 @@ class DocumentsController < ApplicationController
       end
 
     end
-    unless session[:search_results].nil?
-      redirect_to session[:search_results] + "#page_#{@document.pages.first.id}", :notice => "Successfully updated doc."
-    else
+    if session[:search_results].nil?
       redirect_to root_url
+    elsif last_page
+      redirect_to session[:search_results]
+    else
+      redirect_to session[:search_results] + "#page_#{@document.pages.first.id}", :notice => "Successfully updated doc."
     end
 
   end

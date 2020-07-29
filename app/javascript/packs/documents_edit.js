@@ -37,7 +37,7 @@ DeleteRemovePages = function () {
 
         // if I am the last page (removed document not included), delete the links
         if ($(".doc_sort_list").children().length === 2) {
-            $(".action_link").remove()
+            $(".remove_link").remove()
         }
 
         e.preventDefault()

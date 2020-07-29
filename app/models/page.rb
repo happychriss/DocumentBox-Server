@@ -69,11 +69,12 @@ class Page < ActiveRecord::Base
     joins("LEFT OUTER JOIN documents ON documents.id = pages.document_id").joins("LEFT OUTER JOIN covers ON covers.id = documents.cover_id").where("documents.cover_id=#{cid}")
   }
 
-### Thinking Sphinx
+### Thinking Sphinx - index is on document, to trigger delta-index on page change - the delta flag is set for the document
   after_commit :set_delta_flag
 
   def set_delta_flag
-    unless self.document.nil?
+
+    unless self.document.nil? or not Document.exists?(self.document.id)
       self.document.reload
       self.document.update_attribute(:delta, true)
     end

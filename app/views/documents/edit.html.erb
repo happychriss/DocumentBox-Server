@@ -7,27 +7,28 @@
 
 
 <div style="padding-left: 10px; font-size: large">
-  <%= link_to("View full PDF Document", pdf_document_path(@document)) if  @document.complete_pdf?  %>
+  <%= link_to("View full PDF Document", pdf_document_path(@document)) if @document.complete_pdf? %>
 </div>
 
-<%= form_for(@document ) do |f| %>
+<%= form_for(@document) do |f| %>
 
-<div class="input_area form-inline" style='display:block;'>
-      Comment:  <%= f.text_field :comment %>
+  <div class="input_area form-inline" style='display:block;'>
+    Comment:  <%= f.text_field :comment %>
 
-      <label> Created:  <%= f.text_field "created_at", :value => @document.created_at.to_s, data: { behavior: "flatpickr" }, size: 8 %></label>
-      <label>Folder: <%= f.select(:folder_id, Folder.all.collect{|f| [f.name, f.id]}) %> </label>
-      <label >
-        <%= if @document.delete_at.nil? then
-              "Document will never expire"
-            else
-              "Document will expire in #{(@document.delete_at.year * 12 + @document.delete_at.month) - (Date.today.year * 12 + Date.today.month)} months"
-            end %>
-        | Expires :
+    <label>
+      Created:  <%= f.text_field "created_at", :value => @document.created_at.to_s, data: {behavior: "flatpickr"}, size: 8 %></label>
+    <label>Folder: <%= f.select(:folder_id, Folder.all.collect { |f| [f.name, f.id] }) %> </label>
+    <label>
+      <%= if @document.delete_at.nil? then
+            "Document will never expire"
+          else
+            "Document will expire in #{(@document.delete_at.year * 12 + @document.delete_at.month) - (Date.today.year * 12 + Date.today.month)} months"
+          end %>
+      | Expires :
 
-        <%= f.date_select(:delete_at, {start_year: Date.today.year, order: [:year], include_blank: true}, {:id => 'lb_no_delete'}) %>
+      <%= f.date_select(:delete_at, {start_year: Date.today.year, order: [:year], include_blank: true}, {:id => 'lb_no_delete'}) %>
 
-      </label>
+    </label>
       <label style="margin-left:10px"> Never delete this file: <%= f.check_box(:no_delete, :id => 'cb_no_delete') %></label>
 
     <label>
@@ -39,17 +40,17 @@
     <%= render :partial => '/keywords', :locals => {:current_keywords => @document.keyword_ids} %>
 
 
-  <br/>
-    <%= f.submit "Cancel" , :id => "id_upload_btn", :name => "name_upl"%>
+    <br/>
+    <%= f.submit "Cancel", :id => "id_upload_btn", :name => "name_upl" %>
     <%= f.submit "Update" %>
 
-</div>
+  </div>
 
   <h1>Adjust page order with drag and drop"</h1>
 
-    <div style='float: left;width: 100%'>
+  <div style='float: left;width: 100%'>
     <%= render :partial => 'pages_edit', :locals => {:document => @document} %>
-    </div>
+  </div>
 
 
 <% end %>
