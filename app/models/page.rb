@@ -8,7 +8,6 @@ class Page < ActiveRecord::Base
   include FileSystem
   include ThinkingSphinx::Scopes
 
-
   attr_accessor :upload_file
 
   belongs_to :document, optional: true

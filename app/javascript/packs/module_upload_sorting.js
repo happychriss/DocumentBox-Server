@@ -29,6 +29,27 @@ function align_pages() {
 
 }
 
+export function NeverDeleteCheckBox() {
+
+    $('#cb_no_delete').on('click load', function () {
+        if ($(this).is(':checked')) {
+            $('#lb_no_delete').attr('disabled', 'disabled');
+        } else {
+            $('#lb_no_delete').removeAttr('disabled');
+        }
+    });
+
+    $('#lb_no_delete').on('change load', function () {
+        var value = $(this).val();
+        if (value !== '') {
+            $('#cb_no_delete').attr('disabled', 'disabled');
+        } else {
+            $('#cb_no_delete').removeAttr('disabled');
+        }
+
+    });
+
+}
 
 
 export function UploadSorting() {
@@ -56,17 +77,14 @@ export function UploadSorting() {
 
     target.ondragstart = function (e) {
         sort_org_x_position=e.clientX
-        console.log(sort_org_x_position)
     }
 
     // this is the UL (target)
     target.ondrop = function (e) {
         e.preventDefault()
         if (dragUpload != null) {
-            console.log("Drop into Target-Sorting")
             var a = document.getElementById(dragUpload.id)
             if (a.classList.contains("uploaded")) {
-                console.log("Coming fresh from Upload")
                 a.classList.add("sorting")
                 a.classList.remove("uploaded")
                 a.classList.add("page_sort")
@@ -74,13 +92,9 @@ export function UploadSorting() {
 
             // Pages are reorderd in the target list
             } else {
-                console.log("target:"+e.clientX.toString())
-
                 if (e.clientX>sort_org_x_position) {
-                    console.log("append")
                     target.append(a)
                 } else {
-                    console.log("prepend")
                     target.prepend(a)
                 }
             }
@@ -92,7 +106,6 @@ export function UploadSorting() {
     source.ondrop = function (e) {
         e.preventDefault()
         if (dragUpload != null) {
-            console.log("Drop back to upload")
             let a = document.getElementById(dragUpload.id)
             if (a.classList.contains("sorting")) {
 
@@ -121,14 +134,12 @@ export function UploadSorting() {
 
 
     source.ondragover = function (e) {
-        console.log("Dragover-Source")
         if (dragUpload != null && dragUpload != this) {
             e.preventDefault();
         }
     }
 
     target.ondragover = function (e) {
-        console.log("Dragover-Target")
         if (dragUpload != null && dragUpload != this) {
             e.preventDefault();
         }

@@ -2,6 +2,10 @@ class Document < ActiveRecord::Base
 
   require 'tempfile'
 
+  ThinkingSphinx::Callbacks.append(
+      self, :behaviours => [:sql, :deltas]
+  )
+
 
   has_many :pages, -> { order :position }, dependent: :destroy
   belongs_to :folder, optional: true

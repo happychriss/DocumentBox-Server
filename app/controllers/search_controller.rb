@@ -68,6 +68,7 @@ end
 
   def accept_all_params
     params.permit!
+    response.headers['SameSite'] = 'Lax'
   end
 
 end

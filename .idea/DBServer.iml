@@ -42,8 +42,8 @@
     <orderEntry type="library" scope="PROVIDED" name="acts-as-taggable-on (v6.5.0, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="acts_as_list (v1.0.1, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="aws-eventstream (v1.1.0, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="aws-partitions (v1.344.0, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="aws-sdk-core (v3.104.2, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="aws-partitions (v1.348.0, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="aws-sdk-core (v3.104.3, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="aws-sdk-kms (v1.36.0, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="aws-sdk-s3 (v1.75.0, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="aws-sigv4 (v1.2.1, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
@@ -62,7 +62,7 @@
     <orderEntry type="library" scope="PROVIDED" name="flatpickr (v4.6.3.1, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="globalid (v0.4.2, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="god (v0.13.7, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="i18n (v1.8.4, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="i18n (v1.8.5, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="innertube (v1.1.0, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="jbuilder (v2.10.0, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="jmespath (v1.4.0, RVM: ruby-2.7.1 [docbox_r6]) [gem]" level="application" />

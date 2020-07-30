@@ -111,7 +111,7 @@ var DragDropTouch;
     };
     return DataTransfer;
   }());
-  console.log("Start")
+
   DragDropTouch_1.DataTransfer = DataTransfer;
   /**
    * Defines a class that adds support for touch-based HTML5 drag/drop operations.
@@ -431,7 +431,7 @@ var DragDropTouch;
     };
     return DragDropTouch;
   }());
-  console.log("DragDropTouch..done");
+
   /*private*/ DragDropTouch._instance = new DragDropTouch(); // singleton
   // constants
   DragDropTouch._THRESHOLD = 5; // pixels to move before drag starts
@@ -449,5 +449,5 @@ var DragDropTouch;
   DragDropTouch._kbdProps = 'altKey,ctrlKey,metaKey,shiftKey'.split(',');
   DragDropTouch._ptProps = 'pageX,pageY,clientX,clientY,screenX,screenY'.split(',');
   DragDropTouch_1.DragDropTouch = DragDropTouch;
-  console.log("DragDropTouch..really");
+
 })(DragDropTouch || (DragDropTouch = {}));

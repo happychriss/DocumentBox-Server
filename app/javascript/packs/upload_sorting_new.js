@@ -1,10 +1,9 @@
-require("jquery-ui");
+require("jquery-ui")
 require("flatpickr/dist/flatpickr.css")
 require("flatpickr/dist/themes/confetti.css")
 require("pretty-checkbox/dist/pretty-checkbox.css")
 
-import {UploadSorting} from './module_upload_sorting'
-
+import {NeverDeleteCheckBox, UploadSorting} from './module_upload_sorting'
 
 function PDFPrint() {
     // if problems are here, the event https://intellij-support.jetbrains.com/hc/en-us/community/posts/360003442619-JS-Event-depreciated-warning-in-inspector
@@ -38,15 +37,11 @@ function AddScannerSpinner() {
 // https://code.google.com/p/jqueryrotate/w/list
 
 
-//****************************************************************************************
-
-
-//****************************************************************************************
 
 
 $(document).ready(function () {
     UploadSorting();
     AddScannerSpinner();
-
+    NeverDeleteCheckBox();
     PDFPrint();
 });

@@ -1,16 +1,18 @@
 // Sorting the order of docs by updating the position hidden field
 // Using HTML5 as it works together with touch-punch.js
-require("jquery-ui");
+require("jquery-ui")
 require("flatpickr/dist/flatpickr.css")
 require("flatpickr/dist/themes/confetti.css")
 require("pretty-checkbox/dist/pretty-checkbox.css")
+
+import {NeverDeleteCheckBox} from './module_upload_sorting'
 
 var sel_obj = null
 
 
 // Document edit does all actions before update, information is stored in in hidden input fields
 // reorder pages, delete pages and remove pages
-DeleteRemovePages = function () {
+function DeleteRemovePages () {
     $(".action_link").click(function (e) {
 
         // if link is clicked on the page, add page-id to hidden input field
@@ -48,7 +50,7 @@ DeleteRemovePages = function () {
 // Sort of pages in documents edit with drag and drop
 // to omit to many events, using "dragstop"
 // important t
-UpdateDocumentPages = function () {
+function UpdateDocumentPages() {
 
     // images are draggable=true by default - we dont want to dragg the images
     $("img").each(function () {
@@ -107,6 +109,7 @@ function isBefore(el1, el2) {
 $(document).ready(function () {
     UpdateDocumentPages();
     DeleteRemovePages();
+    NeverDeleteCheckBox();
 });
 
 

@@ -12,7 +12,6 @@ DropPages = function () {
         $(this).attr('draggable', 'true');
 
         $(this).on("dragstart", function (e) {
-            console.log("Event-Dragable");
             $(this).find('.clickzoom').addClass("no_clickzoom"); //prevent event propagation, so clickzoom will not be triggerd
             dragSrcEl = e.target;
             $(dragSrcEl).fadeTo('medium',0.2)
@@ -24,7 +23,6 @@ DropPages = function () {
 
         $(this).on("drop", function (e) {
             if (dragSrcEl != null && dragSrcEl!= this) {
-                console.log("Event-Drop");
                 e.stopPropagation()
                 e.stopImmediatePropagation()
                 e.preventDefault()
@@ -33,7 +31,6 @@ DropPages = function () {
                 var drag_id = dragSrcEl.id
                 var parameters = 'drop_id=' + drop_id + "&" + 'drag_id=' + drag_id;
                 $.post("add_page", parameters, function (data, status) {
-                    console.log(status);
                 });
                 e.target.setAttribute('draggable','false')
             }

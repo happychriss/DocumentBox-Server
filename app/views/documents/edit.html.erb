@@ -29,7 +29,15 @@
       <%= f.date_select(:delete_at, {start_year: Date.today.year, order: [:year], include_blank: true}, {:id => 'lb_no_delete'}) %>
 
     </label>
-      <label style="margin-left:10px"> Never delete this file: <%= f.check_box(:no_delete, :id => 'cb_no_delete') %></label>
+
+
+    <label style="margin-left:10px">
+      <div class="pretty p-default p-curve">
+        <%= f.check_box(:no_delete, :id => 'cb_no_delete') %>
+        <div class="state p-warning"> <label>Never delete this file</label></div>
+      </div>
+    </label>
+
 
     <label>
       <%= "Document(#{@document.id}) was created in #{@document.created_at.strftime('%B %Y')} for folder '#{@document.folder.short_name}'" %>
