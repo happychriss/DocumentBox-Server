@@ -1,0 +1,6 @@
+<%if success_status %>
+$('#upload_result').empty().append('Upload successfully').css("color", "black");
+$('#file_upload_my_file').val('')
+<%else %>
+$('#upload_result').empty().append('<%=error_message %>').css("color", "red");
+<%end %>

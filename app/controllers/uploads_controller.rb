@@ -17,14 +17,14 @@ class UploadsController < ApplicationController
       @message = params[:message]
       @scan_complete = (params[:scan_complete] == 'true')
       TouchSwitch.send_status(@message, @scan_complete)
-      push_upload_update('Scanner',@message,nil,@scan_complete)
+      push_upload_update('Scanner', @message, nil, @scan_complete)
       head :ok
     end
 
     ### called from converter, this will trigger the Pusher in view
     def convert_status
-      @message=params[:message]
-      push_upload_update('Converter',@message)
+      @message = params[:message]
+      push_upload_update('Converter', @message)
       head :ok
     end
 
@@ -58,7 +58,7 @@ class UploadsController < ApplicationController
       Hardware.blink_ok_status_led
 
       ## this triggers the pusher to update the page with new uploaded data
-      push_upload_update('Scanner',"New Scanner File",@page)
+      push_upload_update('Scanner', "New Scanner File", @page)
 
       head :ok
 
@@ -90,33 +90,46 @@ class UploadsController < ApplicationController
     #### Upload file directly from DBServer via Upload Dialogue
     def create_from_upload
 
-      if params[:file_upload].nil? or params[:file_upload][:my_file].nil?
-        flash[:error] = "No filename entered."
-        render :action => 'new'
-        return
+      begin
+
+        error_message = ''
+        success_status = true
+
+        if params[:file_upload].nil? or params[:file_upload][:my_file].nil?
+          raise "No filename entered."
+        end
+
+        upload_file = params[:file_upload][:my_file]
+
+        unless Page::PAGE_MIME_TYPES.has_key?(upload_file.content_type)
+          raise "File format not supported"
+        end
+
+        page = Page.new(
+            :original_filename => upload_file.original_filename,
+            :source => Page::PAGE_SOURCE_UPLOADED,
+            :mime_type => upload_file.content_type)
+
+        page.save!
+        page.reload
+        page.save_file(upload_file, :org)
+
+        Converter.run_conversion([page.id])
+
+        ## this triggers the pusher to update the page with new uploaded data
+       push_upload_update('Scanner', "New Scanner File", page)
+
+      rescue StandardError => e
+        error_message = e.message
+        success_status=false
       end
 
-      upload_file = params[:file_upload][:my_file]
-
-      unless Page::PAGE_MIME_TYPES.has_key?(upload_file.content_type)
-        flash[:error] = "File format not supported, detected type: ****** #{upload_file.content_type} ******- supportet tpyes: #{Page::PAGE_MIME_TYPES.to_s}."
-        render :action => 'new'
-        return
+      respond_to do |format|
+        format.js { render :locals => {:error_message => error_message, :success_status => success_status}}
       end
 
-      page = Page.new(
-          :original_filename => upload_file.original_filename,
-          :source => Page::PAGE_SOURCE_UPLOADED,
-          :mime_type => upload_file.content_type)
 
-      page.save!
-      page.reload
 
-      page.save_file(upload_file, :org)
-
-      Converter.run_conversion([page.id])
-
-      redirect_to new_upload_path, notice: 'Upload was successfully created.'
 
     end
 
@@ -128,13 +141,13 @@ class UploadsController < ApplicationController
     ### called from converter, when preview images are created
     def convert_upload_preview_jpgs
 
-      page=Page.find(params[:page][:id])
+      page = Page.find(params[:page][:id])
       page.save!
 
       page.save_file(params[:page][:result_jpg], :jpg)
       page.save_file(params[:page][:result_sjpg], :s_jpg)
 
-      push_upload_update('Converter',"Preview converted", page)
+      push_upload_update('Converter', "Preview converted", page)
 
       head :ok
 
@@ -143,24 +156,24 @@ class UploadsController < ApplicationController
     ### called from converter, when document is converted
     def convert_upload_pdf
 
-      page=Page.find(params[:page][:id])
-      page.content=params[:page][:content]
-      page.status=Page::UPLOADED_PROCESSED
-      page.mime_type='application/pdf' if page.calc_pdf_as_org?
-      page.ocr=true
+      page = Page.find(params[:page][:id])
+      page.content = params[:page][:content]
+      page.status = Page::UPLOADED_PROCESSED
+      page.mime_type = 'application/pdf' if page.calc_pdf_as_org?
+      page.ocr = true
 
       ### check if we have a PDF for the page available, either as org file or created in addition
-      if page.calc_pdf_as_org? or params[:page][:pdf_data]!=""
-        page.pdf_exists=true
+      if page.calc_pdf_as_org? or params[:page][:pdf_data] != ""
+        page.pdf_exists = true
       end
 
       page.save_file(params[:page][:org_data], :org) ##this is pdf in case of scanned, otherwise JPG
-      page.save_file(params[:page][:pdf_data], :pdf) unless params[:page][:pdf_data]=="" #if JPG, this is the PDF as extra
+      page.save_file(params[:page][:pdf_data], :pdf) unless params[:page][:pdf_data] == "" #if JPG, this is the PDF as extra
 
       page.save!
 
-       ## send status-update to application
-      push_upload_update('Converter',"Converted", page)
+      ## send status-update to application
+      push_upload_update('Converter', "Converted", page)
 
       head :ok
 

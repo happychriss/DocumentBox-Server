@@ -6,11 +6,26 @@
 
 <div class="document_frame">
 
-  <div id='scan_menu' style="margin-left: 15px">
-    <%= link_to 'Check Scanner', {:controller => 'scanners', :action => "scan_info", :remote => true}, {:style => 'font-size:18px', :id => 'scan_menu_link'} %>
-    <%= image_tag('small_spinner.gif', :style => 'display:none', :id => 'scan_menu_spinner') %>
-  </div>
+  <div class="input_area" style="float: left;width: 50%">
+    <div style="width: 20%;min-width:130px;border-right-style:solid;border-right-color:lightgrey;border-right-width:1px; float:  left">
+      <%= button_to "Scan Document", {:controller => 'scanners', :action => "scan_info"}, {:id => 'scan_menu_link', :method => :get, :remote => true, :style => 'margin-bottom:5px'} %>
+      <%= button_to "Upload File ", nil, {id: 'btn_start_upload', :method => :get, :remote => true , :style => 'margin-bottom:5px'} %>
+    </div>
+    <div id='scan_menu' style="margin-left: 15px;float:left; width:70%; display:none">
+      <%= image_tag('small_spinner.gif') %>
+      <%= label_tag(nil, 'checking scanner') %>
+    </div>
+    <div id='upload_menu' style="margin-left: 15px;float:left; width:40%; display:none">
+      <%= form_for :file_upload, :url => {:controller => 'uploads', :action => 'create_from_upload'}, :html => {:multipart => true, :remote => true,  :id => 'button_upload_trigger'} do |f| %>
+        <%= f.submit "Upload", :id => 'submit_for_upload', :style => "display: none;" %> <%= f.file_field :my_file %>
+      <% end %>
+      <div id='upload_result'></div>
+    </div>
+    <div id='info_menu' style="margin-left: 15px;float:left; width:40%; ">
+      <p style="font-size: medium; color:grey">Scan or upload a file</p>
+    </div>
 
+  </div>
 
   <!--------------------------------------- list new uploaded pages -->
   <ul class="document_page_index" id="sortable1">
@@ -61,10 +76,10 @@
             </label>
 
             <label style="margin-left:10px">
-                <div class="pretty p-default p-curve">
-                   <%= f.check_box(:no_delete, :id => 'cb_no_delete') %>
-                  <div class="state p-warning"> <label>Never delete this file</label></div>
-                </div>
+              <div class="pretty p-default p-curve">
+                <%= f.check_box(:no_delete, :id => 'cb_no_delete') %>
+                <div class="state p-warning"><label>Never delete this file</label></div>
+              </div>
             </label>
 
           </div>

@@ -1,7 +1,0 @@
-// Updates the scanner status headline, enables the scanner icons when scanner is completed
-$('#scanner_status').text("<%=h @message%>");
-<% if @scan_complete then %>
-    $('#scann_working_spinner').hide();
-    $('#scann_button').prop('disabled', false);
-    $('#color').prop('disabled', false);
-<% end %>

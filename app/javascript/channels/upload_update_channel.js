@@ -13,7 +13,6 @@ consumer.subscriptions.create("UploadUpdateChannel", {
     },
 
     received(data) {
-
         // Called when there's incoming data on the websocket for this channel
         let page_id = data.page_id
         let page_html = data.page_html
@@ -40,8 +39,10 @@ consumer.subscriptions.create("UploadUpdateChannel", {
             $('#scanner_status').text(result_message)
 
             if (scan_complete === true) {
+                debugger
                 $('#scann_working_spinner').hide();
                 $('#scann_button').prop('disabled', false);
+                $('#scann_button').css("color", "black");
                 $('#color').prop('disabled', false);
             }
 

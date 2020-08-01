@@ -1,41 +1,40 @@
-<div class="input_area" style="min-height: 40px">
-
   <%= form_tag start_scanner_path, :remote => true do %>
 
-    <div style="float: left;width: 45%;">
-      <%= submit_tag("Scann", :id => :scann_button) %>
-      <%= select_tag(:scanner_name, options_for_select(@scanner_device_list), {:include_blank => false}) %>
+    <div style="float: left;width: 45%;height:100%;border-right-style:solid;border-right-color:lightgrey;border-right-width:1px;min-height:55px;margin-right: 10px;">
+      <%= submit_tag("Start Scann", :id => :scann_button) %>
 
-
-      <div class="pretty p-switch" style="padding-left: 20px" >
+      <span class="pretty p-switch" style="padding-top: 3px;padding-bottom: 3px" >
         <%= check_box_tag(:color, '1',true) %>
         <div class="state p-warning"> <label>Color</label></div>
+      </span>
+
+      <div style="float: right;margin-top: 10px; margin-right: 10px;">
+        <%= image_tag('small_spinner2.gif', :style => 'display:none;float:right', :id => 'scann_working_spinner') %>
       </div>
 
 
+      <%= select_tag(:scanner_name, options_for_select(@scanner_device_list), {:include_blank => false, :style=>'font-size:smaller'}) %>
 
 
     </div>
 
-    <div style="display:inline-block;width: 40%;margin-top: 7px;">
+
+    <div style="display:inline-block;width: 49%;float:left;margin-top: 7px;">
         Status:
         <span id="scanner_status" style="font-weight:bold;">No Message</span>
       </div>
 
-    <div style="display:inline-block;width: 15%;margin-top: 7px;">
+    <div style="display:inline-block;width: 49%;float:left;margin-top: 7px;">
       OCR:
       <span id="convert_status" style="font-weight:bold;">No Message</span>
     </div>
 
-      <div style="float: right;margin-top: 7px;">
-        <%= image_tag('small_spinner2.gif', :style => 'display:none;float:right', :id => 'scann_working_spinner') %>
-      </div>
 
 
   <% end %>
 
 
-</div>
+
 
 
 
