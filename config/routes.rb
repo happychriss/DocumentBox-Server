@@ -31,6 +31,8 @@ Rails.application.routes.draw do
     get 'jpg/:id' => 'search#show_jpg_page', :as => :jpg_page
     get 'rtf/:id' => 'search#show_rtf', :as => :rtf
     get 'original/:id' => 'search#show_original', :as => :original
+    get 'pin_document/:id' => 'search#pin_document', :as => :pin_document
+    get 'unpin_document/:id' => 'search#unpin_document', :as => :unpin_document
 
     post 'add_page' => 'search#add_page'
 

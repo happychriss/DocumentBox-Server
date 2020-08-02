@@ -1,0 +1,3 @@
+$('#search_results').find("#page_<%=@page.id%>.pinned").parent().replaceWith("<%= escape_javascript(render :partial => 'page', :locals => {:page => @page}) %>");
+$('#search_pinned').find("#page_<%=@page.id%>.pinned").remove()
+RefreshPages()

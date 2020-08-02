@@ -39,7 +39,8 @@
    <%end%>
 
 
-  <%= "|#{if page.document.nil? then page.created_at.strftime("%d.%m.%y") else page.document.created_at.strftime("%d.%m.%y")end}| #{page.id}" %>
+  <%= "| #{if page.document.nil? then page.created_at.strftime("%d.%m.%y") else page.document.created_at.strftime("%d.%m.%y")end}" %>
+  <%= "| #{if controller_name=='search' then page.document_id else "("+page.id.to_s+")"  end}" %>
   <%= "| #{page.original_filename[0..13]}.." if page.source==Page::PAGE_SOURCE_UPLOADED%>
 
 

@@ -1,10 +1,12 @@
 module SearchHelper
   def search_class(page)
+    doc=page.document
     result="preview"
-    result=result+" new_document" if page.document.status==Document::DOCUMENT_FROM_PAGE_REMOVED
-    result=result+" no_delete" if page.document.no_delete?
-    result=result+" more_pages" if page.document_pages_count>1
-#    result=result+" no_backup" unless page.document.backup?
+    result=result+" new_document" if doc.removed?
+    result=result+" no_delete" if (doc.no_delete? and not doc.pinned?)
+    result=result+" more_pages" if doc.page_count>1
+    result=result+" pinned" if (doc.pinned?)
+#    result=result+" no_backup" unless doc.backup?
     return result
   end
 end

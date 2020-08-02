@@ -3,6 +3,13 @@
 require("jquery-ui");
 require("pretty-checkbox/dist/pretty-checkbox.css");
 
+RefreshPages = function () {
+    $('#search_pinned').find(".pinned").addClass('pinned_show')
+    $('#search_results').find(".pinned").hide()
+    DropPages();
+}
+
+
 DropPages = function () {
 
     var dragSrcEl = null;
@@ -31,7 +38,7 @@ DropPages = function () {
                 var drag_id = dragSrcEl.id
                 var parameters = 'drop_id=' + drop_id + "&" + 'drag_id=' + drag_id;
                 $.post("add_page", parameters, function (data, status) {
-                });
+                }); //add pages calles js.erb file to add the page and refresh the pinned once
                 e.target.setAttribute('draggable','false')
             }
         })
@@ -60,7 +67,7 @@ DropPages = function () {
 
 
 $(document).ready(function () {
-    DropPages();
+    RefreshPages();
 
 });
 

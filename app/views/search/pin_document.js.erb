@@ -1,0 +1,5 @@
+$("#search_pinned").prepend("<%= escape_javascript(render :partial => 'page', :locals => {:page => @page}) %>");
+$('#search_results').find("#page_<%=@page.id%>").addClass('pinned')
+RefreshPages();
+
+

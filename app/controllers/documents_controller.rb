@@ -76,7 +76,6 @@ class DocumentsController < ApplicationController
 
   ## remove a page from the document via the edit action
   def remove_page
-
     @page = Page.find(params[:id])
     @document = @page.document
 

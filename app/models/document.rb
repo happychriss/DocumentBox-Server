@@ -10,6 +10,8 @@ class Document < ActiveRecord::Base
   has_many :pages, -> { order :position }, dependent: :destroy
   belongs_to :folder, optional: true
   belongs_to :cover, optional: true
+  has_one :pinned_document,  dependent: :destroy
+
 
   accepts_nested_attributes_for :pages, :allow_destroy => true
   acts_as_taggable_on :keywords
@@ -65,6 +67,14 @@ class Document < ActiveRecord::Base
 
   def backup?
     self.pages.where("backup = 0").count == 0
+  end
+
+  def pinned?
+    self .pinned_document.present?
+  end
+
+  def removed?
+    self.status==Document::DOCUMENT_FROM_PAGE_REMOVED
   end
 
   def update_after_page_change

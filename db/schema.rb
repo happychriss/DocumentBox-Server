@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_19_210703) do
+ActiveRecord::Schema.define(version: 2020_08_02_083900) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,6 +84,13 @@ ActiveRecord::Schema.define(version: 2020_06_19_210703) do
     t.index ["document_id"], name: "index_pages_on_document_id"
     t.index ["ocr"], name: "index_pages_on_ocr"
     t.index ["status"], name: "index_pages_on_status"
+  end
+
+  create_table "pinned_documents", force: :cascade do |t|
+    t.bigint "document_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["document_id"], name: "index_pinned_documents_on_document_id"
   end
 
   create_table "taggings", id: :serial, force: :cascade do |t|

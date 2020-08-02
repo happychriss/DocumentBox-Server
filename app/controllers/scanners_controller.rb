@@ -14,7 +14,7 @@ class ScannersController < ApplicationController
     @scanner_device_list=Scanner.connected_devices
     respond_to do |format|
       format.js  # index.html.erb
-      format.json { render :json => @scanner_device_list }
+      format.json { render :json => @scanner_device_list } # scan from mobile
     end
 
       #DETE: respond_to(:js) #scan_info.js.erb

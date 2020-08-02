@@ -25,6 +25,19 @@ class SearchController < ApplicationController
 
 end
 
+
+  def pin_document
+    document=Document.find(params[:id])
+    document.create_pinned_document
+    @page=document.cover_page
+  end
+
+  def unpin_document
+    document=Document.find(params[:id])
+    document.pinned_document.destroy
+    @page=document.cover_page
+  end
+
   ## add a page to the document via drag and drop (from search screen)
   def add_page
     drag_id=params[:drag_id][/\d+/].to_i

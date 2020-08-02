@@ -1,6 +1,8 @@
+debugger
 <% if @scanner_device_list.count!=0 then %>
 $("#scan_menu").html("<%= escape_javascript(render(:partial => 'scanners/scanner_menu')) %>")
 <%else%>
-$('#scan_menu_spinner').hide();
+$('#scan_menu').hide();
+$('#scan_menu_link').prop("disabled", false);
 alert("No scanner found");
 <%end%>
