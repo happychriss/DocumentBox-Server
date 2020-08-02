@@ -8,8 +8,8 @@
 
   <div class="input_area" style="float: left;width: 50%">
     <div style="width: 20%;min-width:130px;border-right-style:solid;border-right-color:lightgrey;border-right-width:1px; float:  left">
-      <%= button_to "Scan Document", {:controller => 'scanners', :action => "scan_info"}, {:id => 'scan_menu_link', :method => :get, :remote => true, :style => 'margin-bottom:5px'} %>
-      <%= button_to "Upload File ", nil, {id: 'btn_start_upload', :method => :get, :remote => true , :style => 'margin-bottom:5px'} %>
+      <%= button_to "Scan Document", {:controller => 'scanners', :action => "scan_info"}, {:id => 'scan_menu_link', :method => :get, :remote => true, :style => 'margin-bottom:5px;'} %>
+      <%= button_to "Upload File ", nil, {id: 'btn_start_upload', :method => :get, :remote => true , :style => 'margin-bottom:5px;margin-top:7px;'} %>
     </div>
     <div id='scan_menu' style="margin-left: 15px;float:left; width:70%; display:none">
       <%= image_tag('small_spinner.gif') %>

@@ -1,20 +1,21 @@
 <!-- will be yielded into /pages/show_page -->
+
 <% if page.document.complete_pdf? %>
   |  <%= link_to("PDF", pdf_document_path(page.document.id)) %>
   <% if page.document_pages_count == 1 and page.mime_type != 'application/pdf' %>
-    |  <%= link_to(page.short_mime_type, original_path(page.id)) %>
+  |  <%= link_to("   #{page.short_mime_type}", original_path(page.id)) %>
   <% end %>
 <% else %>
-  <%= link_to(page.short_mime_type, original_path(page.id)) %>
+ | <%= link_to("   #{page.short_mime_type}", original_path(page.id)) %>
 <% end %>
 
 
 <div style="float:right;">
 
-  <%= link_to "Pin |",pin_document_path(page.document.id),:remote => true unless page.document.pinned?  or page.document.removed?%>
-  <%= link_to "Un-Pin |",unpin_document_path(page.document.id),:remote => true if page.document.pinned? %>
+   <%= link_to "Pin",pin_document_path(page.document.id),:remote => true unless page.document.pinned?  or page.document.removed?%>
+    <%= link_to "Un-Pin ",unpin_document_path(page.document.id),:remote => true if page.document.pinned? %>
 
-  <%= link_to 'Details', edit_document_path(page.document.id) %>
-  <%= link_to('| Show', show_document_pages_path(page.document.id), :class => "link_show_pages", :remote => true) if page.document.page_count > 1 %>
+|  <%= link_to '  Details', edit_document_path(page.document.id) %>
+|  <%= link_to('  Show', show_document_pages_path(page.document.id), :class => "link_show_pages", :remote => true) if page.document.page_count > 1 %>
   <a class='close_pages_link' style="display: none;">Close</a>
 </div>
