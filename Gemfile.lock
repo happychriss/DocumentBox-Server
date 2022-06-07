@@ -99,7 +99,7 @@ GEM
     innertube (1.1.0)
     jbuilder (2.10.0)
       activesupport (>= 5.0.0)
-    jmespath (1.4.0)
+    jmespath (1.6.1)
     joiner (0.5.0)
       activerecord (>= 6.0.0.rc2)
     listen (3.1.5)
