@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.1'
+ruby '3.1.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.2', '>= 6.0.2.1'
@@ -64,3 +64,8 @@ gem 'dnssd','2.0.1'
 gem 'thinking-sphinx'
 gem 'mysql2', :platform => :ruby #must be installed somehow
 gem 'flatpickr'
+
+# Ubuntu 22.04 does only support openssl 3.0, that is only supported by ruby 3.1.2
+gem 'psych', '< 4' #https://stackoverflow.com/questions/71191685/visit-psych-nodes-alias-unknown-alias-default-psychbadalias
+gem 'net-smtp', require: false  #/https://stackoverflow.com/questions/70500220/rails-7-ruby-3-1-loaderror-cannot-load-such-file-net-smtp
+gem 'matrix'

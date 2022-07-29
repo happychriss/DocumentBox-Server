@@ -4,7 +4,7 @@ module Pusher
   def push_app_status
     puts "PUSHER: App Status START ***************************"
     message = ApplicationController.render partial: '/app_status'
-    ActionCable.server.broadcast 'app_status_channel', content: message
+    ActionCable.server.broadcast 'app_status_channel', {content: message}
     puts "PUSHER: App Status END ***************************"
   end
 
@@ -20,12 +20,12 @@ module Pusher
       page_id=page.id
     end
 
-    ActionCable.server.broadcast 'upload_update_channel',
+    ActionCable.server.broadcast 'upload_update_channel',{
                                  update_source: update_source,
                                  page_html: page_html,
                                  page_id: page_id,
                                  result_message: result_message,
-                                 scan_complete: scan_complete
+                                 scan_complete: scan_complete}
 
     puts "PUSHER: Upload Update END *********************"
   end
