@@ -45,37 +45,40 @@ scanner and even LEDs for the print process.
 Installation
 ============
 
-Content
-  <!--ts-->          
-   * [Prepare](#prepare)
-      * [Fixed IP Address](#fixed-ip-address)
-      * [Setup the user ‘docbox’](#setup-the-user-docbox)
-   * [Install SW](#install-sw)
-      * [Standard Ubuntu Packages](#standard-ubuntu-packages)
-      * [PhusionPassenger](#phusionpassenger)
-   * [Install DocumentBox Server](#install-documentbox-server)
-      * [Download Source-code](#download-source-code)
-      * [Configuration](#configuration)
-         * [Subnet](#subnet)
-         * [Folder Structure](#folder-structure)
-         * [Credentials for DB and S3](#credentials-for-db-and-s3)
-         * [Postgres Database](#postgres-database)
-   * [Backup and Encryption on Amazon S3](#backup-and-encryption-on-amazon-s3)
-      * [SetUp Amazon S3 Bucket](#setup-amazon-s3-bucket)
-      * [Configure gpg encryption](#configure-gpg-encryption)
-   * [Additional components](#additional-components)
-      * [Nginx &amp; PhusionPassenger](#nginx--phusionpassenger)
-      * [Sphinx](#sphinx)
-      * [ImageMagick](#imagemagick)
-   * [Install DocumentBox Daemons](#install-documentbox-daemons)
-      * [Download Software from GitHub](#download-software-from-github)
-      * [<strong>Configure Scanner</strong>](#configure-scanner)
-         * [Instruction for S1300](#instruction-for-s1300)
-   * [Run DocumentBox](#run-documentbox)
-      * [Add GOD to autostart (etc/init.d)](#add-god-to-autostart-etcinitd)
+Table of Contents
+=================
 
-Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
-<!--te-->
+* [DocumentBox](#documentbox)
+* [Technical Overview](#technical-overview)
+* [Installation](#installation)
+* [Prepare](#prepare)
+  * [Fixed IP Address](#fixed-ip-address)
+  * [Setup the user ‘docbox’](#setup-the-user-docbox)
+* [Install SW](#install-sw)
+    * [Standard Ubuntu Packages](#standard-ubuntu-packages)
+    * [PhusionPassenger](#phusionpassenger)
+* [Install DocumentBox Server](#install-documentbox-server)
+    * [Download Source-code](#download-source-code)
+    * [Configuration](#configuration)
+        * [Subnet](#subnet)
+        * [Folder Structure](#folder-structure)
+        * [Credentials for DB and S3](#credentials-for-db-and-s3)
+            * [Postgres Database](#postgres-database)
+* [Backup and Encryption on Amazon S3](#backup-and-encryption-on-amazon-s3)
+    * [SetUp Amazon S3 Bucket](#setup-amazon-s3-bucket)
+    * [Configure gpg encryption](#configure-gpg-encryption)
+* [Additional components](#additional-components)
+    * [Nginx &amp; PhusionPassenger](#nginx--phusionpassenger)
+      * [Background](#background)
+    * [Sphinx](#sphinx)
+    * [ImageMagick](#imagemagick)
+* [Install DocumentBox Daemons](#install-documentbox-daemons)
+    * [Download Software from GitHub](#download-software-from-github)
+* [<strong>Configure Scanner</strong>](#configure-scanner)
+  * [Instruction for S1300](#instruction-for-s1300)
+* [Run DocumentBox](#run-documentbox)
+
+<!-- Created by https://github.com/ekalinin/github-markdown-toc -->
 
 Prepare 
 ===============
@@ -453,7 +456,7 @@ If scanimage only works with sudo user, create a file 55-libsane.rules in folder
  ```
  
 
-Run DocumentBox
+Autostart & Run DocumentBox
 ===============
 
 **Background**
@@ -489,10 +492,6 @@ sudo systemctl start docbox
 journalctl -f  #list all logfiles of above services
 journalctl -fu db_converter  #list logfiles of a specific service
 
-god start docbox -c docbox.god.rb #without -D will start in background (e.g. add to chron
-god stop docbox      # will stop all services
-god restart docbox   # will start all services
-god restart scanner  # will restart a single services
 ```
 
 ===
