@@ -1,8 +1,9 @@
 
 ![logo](https://github.com/happychriss/DocumentBox-Server/blob/master/app/assets/images/documentbox_pic.jpg)
 
-DocumentBox (Rails 6 on Ubuntu Server)
+DocumentBox 
 ===========
+(Refresh 07/2022: Rails 6 / Ruby 3 on Ubuntu22.04 LTS Server with systemd)
 
 DocumentBox is a OpenSource „home use“ Document Management system that helps you to
 easy scan, file and find your documents. It can run on a mini computer
@@ -139,13 +140,17 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
 # Yarn via https://classic.yarnpkg.com/en/docs/install/#debian-stable
 
 # Install the SW needed by Rails
-rvm install "ruby-2.7.1"
-nvm install 12.16.3
+rvm install "ruby-3.1.2"
+
+# Same issues with rvm and wrappers (used to call ruby commands outside of source folder)
+cd Docbox
+gem install gem-wrappers
+rvm wrappers generate
 
 ```
 PhusionPassenger
 --------------------------- 
-PhusionPassenger is used as ApplicatoinServer together with Nginx, configuration below, installation:
+PhusionPassenger is used as Application-Server together with Nginx, configuration below, installation:
 ```bash
 # Install our PGP key and add HTTPS support for APT
 sudo apt-get install -y dirmngr gnupg
@@ -201,14 +206,16 @@ bundle install
 --------------------
 
 ###  Subnet
-This is only needed when the IP address of the Pi does not start with
+This is only needed when the IP address you server  does not start with
 192.168.1.\*
 
-Update below file with your subnet (last 3 group of your PI’s IP)
+Update below file with your subnet (last 3 group of your PI’s IP). Look for “192.168.1” and replace by your subnet.
 
 ```bash
-File: /home/docbox/DBServer/docbox.god.rb
-SUBNET = “192.168.1”
+Files: 
+/home/docbox/DBServer/services/db_converter.service
+/home/docbox/DBServer/services/db_scanner.service
+
 ```
 
 ### Folder Structure
@@ -449,22 +456,38 @@ If scanimage only works with sudo user, create a file 55-libsane.rules in folder
 Run DocumentBox
 ===============
 
-DocumentBox is using “god” as a framework to start and monitor the
-application.
+**Background**
 
-The file docbox.god.rb contains the startup configuration.
+DocumentBox uses "systemd" as a framework to start and monitor the
+application. systemd needs to have "services/units" files that define the programs started and its dependencies.
+
+The service scripts are used to start additional services:
+* db_avahi.service: Anounce the Docbox server to the Scanner/Converter Daemon. This allows to run this services on another server (e.g. for converting and OCR on a bigger machine) 
+* db_clockwork.service / db_sidekiq.service: Job scheduling to regulary re-index the database and run a backup of all date to S3
+* db_sphinx.service: Create the super fast search indes for full-text search
+* db_scanner.service: This service needs to be on the same device/server as the scanner is connected via USB.
+* db_converter.service: This service needs to be on server that has OCR capabilities, tesseract and adoby OCR are supported
+* docbox.service: no logic hear, just the box that allows to start/stop all of the above services
+
+The actual "Rails Server" is started as part of NGINX. The service for Nginx is created during the normal Nginx set-up.
+
+**Setup autostart at boot using systemd**
+
+You will need to copy the *.service files as admin into the systemd folder and activate the docbox.service for startup.
 
 The following command will start the Server and Daemons in foreground to
 check the start-up process.
 
 ```bash
-cd DBServer
-god start docbox -c docbox.god.rb -D
+cd DBServer/services
+sudo cp *.service //etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable docbox.service
+sudo systemctl start docbox
 
-You can reach the server in your local network, e.g:
-http://192.168.1.106:8082
-
-# Other useful “god” commands
+# Other useful systemd commands 
+journalctl -f  #list all logfiles of above services
+journalctl -fu db_converter  #list logfiles of a specific service
 
 god start docbox -c docbox.god.rb #without -D will start in background (e.g. add to chron
 god stop docbox      # will stop all services
@@ -472,20 +495,7 @@ god restart docbox   # will start all services
 god restart scanner  # will restart a single services
 ```
 
-Add GOD to autostart (etc/init.d)
------------------------------
-Using systemd for autostart and setting up a docbox.service that is using the GOD framework to start during boot.
-```bash
-sudp cp ./docbox.service //etc/systemd/system
-sudo systemctl daemon-reload
-sudo systemctl enable docbox.service
-```
-To check if all running, you can also start god now by typing:
-```bash
-sudo systemctl start docbox
-```
+===
+***Now you can reach the server in your local network:   http://192.168.1.106:8082***
+===
 
-
-rvm alias create docbox ruby-2.7.1@docbox_r6
-
-```
