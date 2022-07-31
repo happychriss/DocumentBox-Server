@@ -1,0 +1,20 @@
+[Unit]
+Description=DocBox Grouping service
+After=nginx.service
+
+[Service]
+Type=simple
+ExecStart=/bin/true 
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+Wants=db_avahi.service
+Wants=db_sphinx.service
+Wants=db_sidekiq.service
+Wants=db_clockwork.service
+Wants=db_avahi.service
+Wants=db_converter.service
+Wants=db_scanner.service

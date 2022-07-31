@@ -1,0 +1,21 @@
+[Unit]
+Description=Docbox Avahi Service
+After=network.target
+PartOf=docbox.service
+
+# Uncomment for socket activation (see below)
+# Requires=puma.socket
+
+[Service]
+# Foreground process (do not use --daemon in ExecStart or config.rb)
+Type=simple
+Environment=RAILS_ENV=production
+WorkingDirectory=/home/docbox/DBServer
+User=docbox
+Group=docbox
+ExecStartPre=/bin/sleep 3
+ExecStart=/home/docbox/.rvm/gems/ruby-3.1.2@docbox_r6/wrappers/bundle exec ruby /home/docbox/DBServer/services/avahi_service_start_port.rb -p 8082 -e production
+Restart=on-failure
+
+[Install]
+WantedBy=graphical.target

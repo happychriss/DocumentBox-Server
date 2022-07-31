@@ -1,0 +1,21 @@
+[Unit]
+Description=Docbox Scanner Service
+After=network.target
+After=db_avahi.service
+After=nginx.service
+PartOf=docbox.service
+Requires=db_avahi.service
+
+[Service]
+# Foreground process (do not use --daemon in ExecStart or config.rb)
+Type=simple
+Environment=RAILS_ENV=production
+WorkingDirectory=/home/docbox/DBDaemons
+User=docbox
+Group=docbox
+ExecStart=/home/docbox/.rvm/gems/ruby-3.1.2@docbox_r6/wrappers/bundle exec ruby /home/docbox/DBDaemons/cdclient_daemon.rb --service Scanner --uid 101 --prio 1 --subnet 192.168.1 --port 8971 --avahiprefix production --unpaper_speed y
+Restart=on-failure
+
+
+[Install]
+WantedBy=graphical.target

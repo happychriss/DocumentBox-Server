@@ -1,0 +1,22 @@
+[Unit]
+Description=Docbox Document Converter
+After=network.target
+After=db_avahi.service
+After=nginx.service
+PartOf=docbox.service
+Requires=db_avahi.service
+
+[Service]
+# Foreground process (do not use --daemon in ExecStart or config.rb)
+Type=simple
+Environment=RAILS_ENV=production
+WorkingDirectory=/home/docbox/DBDaemons
+User=docbox
+Group=docbox
+#ExecStartPre=/bin/sleep 10
+ExecStart=/home/docbox/.rvm/gems/ruby-3.1.2@docbox_r6/wrappers/bundle exec ruby /home/docbox/DBDaemons/cdclient_daemon.rb --service Converter --uid 103 --prio 0 --subnet 192.168.1 --port 8973 --avahiprefix production
+Restart=on-failure
+
+
+[Install]
+WantedBy=graphical.target

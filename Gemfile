@@ -3,6 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.1.2'
 
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.2', '>= 6.0.2.1'
 # Use postgresql as the database for Active Record
@@ -44,7 +45,7 @@ end
 
 group :production do
 #  gem "passenger", ">= 5.0.25", require: "phusion_passenger/rack_handler"
-  gem 'god'
+#  gem 'god', git: "https://github.com/praveenkumarsinha/god"
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -69,3 +70,9 @@ gem 'flatpickr'
 gem 'psych', '< 4' #https://stackoverflow.com/questions/71191685/visit-psych-nodes-alias-unknown-alias-default-psychbadalias
 gem 'net-smtp', require: false  #/https://stackoverflow.com/questions/70500220/rails-7-ruby-3-1-loaderror-cannot-load-such-file-net-smtp
 gem 'matrix'
+# Fix on zo - https://stackoverflow.com/questions/70500220/rails-7-ruby-3-1-loaderror-cannot-load-such-file-net-smtp
+gem 'net-imap', require: false
+gem 'net-pop', require: false
+
+# RVM
+gem 'gem-wrappers'
