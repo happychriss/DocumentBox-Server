@@ -1,20 +1,27 @@
 [Unit]
 Description=DocBox Grouping service
+Requires=nginx.service
 After=nginx.service
+
+# Order of startup dependencies
+Requires=db_avahi.service
+Requires=db_sphinx.service
+Requires=db_sidekiq.service
+Requires=db_clockwork.service
+Requires=db_converter.service
+Requires=db_scanner.service
+
+After=db_avahi.service
+After=db_sphinx.service
+After=db_sidekiq.service
+After=db_clockwork.service
+After=db_converter.service
+After=db_scanner.service
 
 [Service]
 Type=simple
-ExecStart=/bin/true 
+ExecStart=/bin/true
 RemainAfterExit=yes
 
 [Install]
 WantedBy=multi-user.target
-
-[Unit]
-Wants=db_avahi.service
-Wants=db_sphinx.service
-Wants=db_sidekiq.service
-Wants=db_clockwork.service
-Wants=db_avahi.service
-Wants=db_converter.service
-Wants=db_scanner.service
