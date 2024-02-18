@@ -498,3 +498,10 @@ journalctl -fu db_converter  #list logfiles of a specific service
 ***Now you can reach the server in your local network:   http://192.168.1.106:8082***
 ===
 
+Restore Database
+===============
+Files and Database is encrypted with gpg.
+* Import private and public keyfiles with: gpg --import [keyfile]
+* gpg -- decrypt file_from_aws > postgres_dump
+* Create new database. e.g. with pgadmin
+* pgadmin, select database, run restore, use user docbox
