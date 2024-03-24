@@ -505,3 +505,24 @@ Files and Database is encrypted with gpg.
 * gpg -- decrypt file_from_aws > postgres_dump
 * Create new database. e.g. with pgadmin
 * pgadmin, select database, run restore, use user docbox
+
+## Little Reminder - How to run in Development:
+
+```bash
+#Start Sphinx:
+rake ts:start
+
+#Start Avahi (Avahi is communicating the port of the web-server) 
+ruby avahi_service_start_port.rb -p 8082 -e development 
+
+#Start the Converter , port 8993 and 8991 need to be available, that how the server calls the service
+cdclient_daemon.rb --service "Converter" --uid 3 --prio 12 --subnet "192.168.1" --port 8993 --avahiprefix "development"
+
+#Start the Scanner
+cdclient_daemon.rb --service "Scanner" --uid 1 --prio 12 --subnet "192.168.1" --port 8991 --avahiprefix "development" --unpaper_speed y
+
+#Start DBServer on port 8082
+
+#Credentials are encrypted the rails way: 
+EDITOR="gedit --wait" rails credentials:edit
+```
